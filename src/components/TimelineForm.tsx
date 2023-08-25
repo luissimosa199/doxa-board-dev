@@ -118,9 +118,7 @@ const TimelineForm: FunctionComponent = () => {
       }
     } else {
       try {
-        console.log('121: before mutate')
         await mutation.mutateAsync({ data: previewData, urls: [] })
-        console.log('123: after mutate')
       } catch (err) {
         if (previousData) {
           queryClient.setQueryData<{ pages: TimelineFormInputs[][], pageParams: any[] }>('timelines', previousData);

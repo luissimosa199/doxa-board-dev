@@ -51,8 +51,6 @@ export default async function handler(
       counter++;
     }
 
-    console.log(slug)
-
     const timeline = new TimeLineModel({
       mainText: mainText || "",
       photo: photo,
