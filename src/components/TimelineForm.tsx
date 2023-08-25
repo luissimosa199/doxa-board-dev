@@ -26,6 +26,7 @@ const TimelineForm: FunctionComponent = () => {
 
   const mutation = useMutation(
     async ({ data, urls }: { data: Omit<TimelineFormInputs, "_id" | "createdAt">; urls: string[] }) => {
+
       const payload = {
         ...data,
         photo: urls.map((url, photoIdx: number) => {
@@ -117,7 +118,9 @@ const TimelineForm: FunctionComponent = () => {
       }
     } else {
       try {
+        console.log('121: before mutate')
         await mutation.mutateAsync({ data: previewData, urls: [] })
+        console.log('123: after mutate')
       } catch (err) {
         if (previousData) {
           queryClient.setQueryData<{ pages: TimelineFormInputs[][], pageParams: any[] }>('timelines', previousData);
