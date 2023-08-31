@@ -1,5 +1,5 @@
-import { faVideo } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faVideo } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -60,21 +60,30 @@ const Usuarios = () => {
                         <li key={user._id} className="py-4 space-y-4">
                             <div className="flex items-center gap-4">
                                 <div className="rounded-full h-[150px] w-[150px] border-2 overflow-hidden relative">
-                                    <Image
-                                        alt={`foto de ${user.name}`}
-                                        src={user.image || "/noprofile.png"}
-                                        fill
-                                        className="absolute object-cover"
-                                    />
+                                    <Link href={session?.user?.email === user.email ? "/perfil" : `/usuarios/${user.email.split('@')[0]}`}>
+                                        <Image
+                                            alt={`foto de ${user.name}`}
+                                            src={user.image || "/noprofile.png"}
+                                            fill
+                                            className="absolute object-cover"
+                                        />
+                                    </Link>
                                 </div>
                                 <div className="flex flex-col">
                                     <p className="text-lg font-medium">{user.name}</p>
                                 </div>
-                                {session?.user?.email !== user.email && <div className="">
+
+                                {/* <Link href="/usuarios/id">Ver publicaciones</Link> */}
+
+
+
+                                {/* {session?.user?.email !== user.email && <div className="">
                                     <Link href={`/videocall/${(session!.user!.email as string).split('@')[0]}${user.email.split('@')[0]}`}>
                                         <FontAwesomeIcon icon={faVideo} />
                                     </Link>
-                                </div>}
+                                </div>} */}
+
+
                             </div>
                         </li>
                     );
