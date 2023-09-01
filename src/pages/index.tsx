@@ -89,6 +89,10 @@ const Mainboard: FunctionComponent = () => {
       </div>
       <TimelineForm />
 
+      <div className="border-2">
+
+      </div>
+
       <div className="mt-4">
         {isError && <p>Error: {JSON.stringify(error)} </p>}
 
