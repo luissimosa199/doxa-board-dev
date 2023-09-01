@@ -12,6 +12,7 @@ import { getTimelines } from '@/utils/getTimelines'
 import CategoriesList from '@/components/CategoriesList'
 import ProfilePicture from '@/components/ProfilePicture'
 import { useSession } from 'next-auth/react'
+import PrimaryForm from '@/components/PrimaryForm'
 
 interface MainboardProps {
   timelineData: TimelineFormInputs[];
@@ -90,7 +91,8 @@ const Mainboard: FunctionComponent = () => {
         <input placeholder="Buscar por categoría" className="border rounded p-2 mb-4" type="text" onChange={handleSearchBar} />
         <CategoriesList />
       </div>
-      <TimelineForm />
+      {/* <TimelineForm /> */}
+      <PrimaryForm />
       
       <div className="mt-4">
         {isError && <p>Error: {JSON.stringify(error)} </p>}

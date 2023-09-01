@@ -9,7 +9,6 @@ import PhotoInput from "./PhotoInput";
 import { useSession } from "next-auth/react"
 import InputList from "./InputList";
 import FlexInputList from "./FlexInputList";
-import PrimaryForm from "./PrimaryForm";
 
 const TimelineForm: FunctionComponent = () => {
   const [images, setImages] = useState<string[]>([]);
@@ -138,7 +137,7 @@ const TimelineForm: FunctionComponent = () => {
 
   const handleUploadImages = async (event: ChangeEvent<HTMLInputElement>) => {
     setSubmitBtnDisabled(true);
-    (await handleFileChange(event, setImages, setPreviews));
+    // (await handleFileChange(event, setImages, setPreviews, images));
     setSubmitBtnDisabled(false);
     const uploadPromise = uploadImages(event);
     setImageUploadPromise(uploadPromise);
@@ -199,7 +198,6 @@ const TimelineForm: FunctionComponent = () => {
         <InputList inputList={linksList} setInputList={setLinksList} placeholder="Agrega un link y presiona Enter" type="link" />
 
       </form>
-      <PrimaryForm />
     </>
   );
 };
