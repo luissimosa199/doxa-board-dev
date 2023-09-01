@@ -41,7 +41,7 @@ const ProfilePicture: FunctionComponent<ProfilePictureProps> = ({ username }) =>
                 width={128}
                 height={128}
                 alt={`${username}'s Avatar`}
-                className="w-32 h-32 object-cover rounded-full border-2 border-gray-300 mb-5"
+                className="w-32 h-32 object-cover rounded-full border-gray-300 mb-5"
             />
         </div>
     )

@@ -10,6 +10,8 @@ import TimelineForm from '@/components/TimelineForm'
 import { useInfiniteQuery } from 'react-query';
 import { getTimelines } from '@/utils/getTimelines'
 import CategoriesList from '@/components/CategoriesList'
+import ProfilePicture from '@/components/ProfilePicture'
+import { useSession } from 'next-auth/react'
 
 interface MainboardProps {
   timelineData: TimelineFormInputs[];
@@ -19,6 +21,7 @@ const Mainboard: FunctionComponent = () => {
 
   const [searchValue, setSearchValue] = useState<string | null>(null);
   const [searchResult, setSearchResult] = useState<TimelineFormInputs[] | null>(null)
+  const { data: session } = useSession();
 
   const { data, isLoading, isError, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<TimelineFormInputs[]>(
     'timelines',
@@ -88,11 +91,7 @@ const Mainboard: FunctionComponent = () => {
         <CategoriesList />
       </div>
       <TimelineForm />
-
-      <div className="border-2">
-
-      </div>
-
+      
       <div className="mt-4">
         {isError && <p>Error: {JSON.stringify(error)} </p>}
 

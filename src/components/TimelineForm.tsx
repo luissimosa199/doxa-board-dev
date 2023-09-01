@@ -9,6 +9,7 @@ import PhotoInput from "./PhotoInput";
 import { useSession } from "next-auth/react"
 import InputList from "./InputList";
 import FlexInputList from "./FlexInputList";
+import PrimaryForm from "./PrimaryForm";
 
 const TimelineForm: FunctionComponent = () => {
   const [images, setImages] = useState<string[]>([]);
@@ -144,59 +145,62 @@ const TimelineForm: FunctionComponent = () => {
   };
 
   return (
-    <form onKeyDown={handleFormKeyDown} onSubmit={handleSubmit(onSubmit)} className="border-2 border-gray-300 flex flex-col gap-4 p-6 rounded max-w-[850px] mx-auto shadow-sm">
-      <div className="flex flex-col">
-        <label htmlFor="mainText" className="relative flex flex-col">
-          <textarea placeholder="Escribe algo acá" className="border rounded h-32 p-3 text-md resize-none" id="mainText" {...register("mainText")} />
-        </label>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <PhotoInput handleUploadImages={handleUploadImages} register={register} />
-      </div>
-
-      <InputList inputList={tagsList} setInputList={setTagsList} placeholder="Agrega una categoría y presiona Enter" type="tag" />
-
-      {images.length > 0 && (
-        <div className="flex flex-col gap-2">
-          {images.map((e, idx) => {
-
-            const isVideo = e.includes("data:video/mp4");
-
-            return (
-              <div key={idx}>
-                <button className="text-xs text-red-500 mb-1" onClick={(event) => handleDeleteImage(event, idx, setImages, setPreviews)}>
-                  Borrar
-                </button>
-                {isVideo ? (
-                  <video controls width="834" height="834" className="mt-2 rounded shadow-md">
-                    <source src={e} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                ) : (
-                  <Image src={e} alt={`Thumbnail ${idx}`} className="mt-2 rounded shadow-md" width={834} height={834} />
-                )}
-                <input
-                  className="border w-full mb-1 p-2 placeholder:text-sm rounded-md"
-                  placeholder="Agrega un texto a esta foto"
-                  type="text"
-                  onChange={(event) => handleCaptionChange(event, idx, imagesCaption, setImagesCaptions)}
-                />
-              </div>
-            );
-          })}
+    <>
+      <form onKeyDown={handleFormKeyDown} onSubmit={handleSubmit(onSubmit)} className="border-2 border-gray-300 flex flex-col gap-4 p-6 rounded max-w-[850px] mx-auto shadow-sm">
+        <div className="flex flex-col">
+          <label htmlFor="mainText" className="relative flex flex-col">
+            <textarea placeholder="Escribe algo acá" className="border rounded h-32 p-3 text-md resize-none" id="mainText" {...register("mainText")} />
+          </label>
         </div>
-      )}
+
+        <div className="flex flex-col gap-2">
+          <PhotoInput handleUploadImages={handleUploadImages} register={register} />
+        </div>
+
+        <InputList inputList={tagsList} setInputList={setTagsList} placeholder="Agrega una categoría y presiona Enter" type="tag" />
+
+        {images.length > 0 && (
+          <div className="flex flex-col gap-2">
+            {images.map((e, idx) => {
+
+              const isVideo = e.includes("data:video/mp4");
+
+              return (
+                <div key={idx}>
+                  <button className="text-xs text-red-500 mb-1" onClick={(event) => handleDeleteImage(event, idx, setImages, setPreviews)}>
+                    Borrar
+                  </button>
+                  {isVideo ? (
+                    <video controls width="834" height="834" className="mt-2 rounded shadow-md">
+                      <source src={e} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <Image src={e} alt={`Thumbnail ${idx}`} className="mt-2 rounded shadow-md" width={834} height={834} />
+                  )}
+                  <input
+                    className="border w-full mb-1 p-2 placeholder:text-sm rounded-md"
+                    placeholder="Agrega un texto a esta foto"
+                    type="text"
+                    onChange={(event) => handleCaptionChange(event, idx, imagesCaption, setImagesCaptions)}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
 
 
-      <button disabled={submitBtnDisabled} className={` ${submitBtnDisabled ? "bg-blue-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"} text-white px-4 py-2 rounded`} type="submit">
-        Enviar
-      </button>
+        <button disabled={submitBtnDisabled} className={` ${submitBtnDisabled ? "bg-blue-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"} text-white px-4 py-2 rounded`} type="submit">
+          Enviar
+        </button>
 
-      <FlexInputList inputList={linksList} setInputList={setLinksList} placeholder="Agrega un link de YouTube" type="link" showState={false} primaryColor="red" />
-      <InputList inputList={linksList} setInputList={setLinksList} placeholder="Agrega un link y presiona Enter" type="link" />
-    </form>
+        <FlexInputList inputList={linksList} setInputList={setLinksList} placeholder="Agrega un link de YouTube" type="link" showState={false} primaryColor="red" />
+        <InputList inputList={linksList} setInputList={setLinksList} placeholder="Agrega un link y presiona Enter" type="link" />
 
+      </form>
+      <PrimaryForm />
+    </>
   );
 };
 
