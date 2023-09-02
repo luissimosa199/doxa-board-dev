@@ -143,11 +143,11 @@ const PrimaryForm = () => {
         setSubmitBtnDisabled(true);
         const newPreviews = await handleFileChange(event);
         setPreviews(prevPreviews => [...prevPreviews, ...newPreviews]);
-        const urls = await uploadImages(event);
-        setImages(prevImages => [...prevImages, ...(urls as string[])]);
+        const uploadPromise = uploadImages(event);
+        setImageUploadPromise(uploadPromise);
         setImagesCaptions(prevCaptions => [
             ...prevCaptions,
-            ...(urls as string[]).map((_, index) => ({ idx: prevCaptions.length + index, value: '' }))
+            ...new Array(newPreviews.length).fill(0).map((_, index) => ({ idx: prevCaptions.length + index, value: '' }))
         ]);
         setSubmitBtnDisabled(false);
     };
@@ -169,23 +169,19 @@ const PrimaryForm = () => {
         const previewPhotos = createPhotoData(images, imagesCaption)
         const previewData = createDataObject(data, previewPhotos, tagsList, session, linksList)
         const { previousData } = optimisticUpdate({ data: previewData, images: images });
-
         setTagsList([])
         setLinksList([])
         setImages([]);
         reset();
-
         if (imageUploadPromise) {
             const urls = await imageUploadPromise;
-            const currentPhotos = createPhotoData(urls, imagesCaption)
-            const processedData = createDataObject(data, currentPhotos, tagsList, session, linksList)
-
-            console.log("processedData", processedData ) // data is present
+            setImages(prevImages => [...prevImages, ...(urls as string[])]);
+            const currentPhotos = createPhotoData(urls, imagesCaption);
+            const processedData = createDataObject(data, currentPhotos, tagsList, session, linksList);
             setImageUploadPromise(null);
-
             try {
-                console.log(urls) // data is present
-                await mutation.mutateAsync({ data: processedData, urls })
+                console.log(urls);
+                await mutation.mutateAsync({ data: processedData, urls });
             } catch (err) {
                 if (previousData) {
                     queryClient.setQueryData<{ pages: TimelineFormInputs[][], pageParams: any[] }>('timelines', previousData);
@@ -194,7 +190,6 @@ const PrimaryForm = () => {
             }
         } else {
             try {
-                console.log('hey') // data is not present
                 await mutation.mutateAsync({ data: previewData, urls: [] })
             } catch (err) {
                 if (previousData) {
