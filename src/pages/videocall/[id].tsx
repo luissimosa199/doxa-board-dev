@@ -31,50 +31,8 @@ const Videocall = () => {
     }
 
     const { me, name } = context
-    // const [username, setUsername] = useState("Luis");
     const [message, setMessage] = useState(''); // For the user's message input
     const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-    const [usersInRoom, setUsersInRoom] = useState<UserInRoom[]>([]);
-
-
-    // const socket = useRef<Socket | null>(null);
-    
-    // useEffect(() => {
-    
-    //     // Set the username and name
-    //     setUsername(session?.user?.name as string);
-    //     setName(session?.user?.name as string);
-    
-    //     // Join the room if roomId and username are set
-    //     if (roomId && me) {
-    //         console.log(me, roomId)
-    //         socket.current?.emit('join_room', { username: me, room: roomId });
-    //         console.log("joined");
-    //     }
-    
-    //     // Set up event listeners
-    //     socket.current?.on('users_in_room', (users) => {
-    //         setUsersInRoom(users);
-    //     });
-    
-    //     socket.current?.on('new_message', (data) => {
-    //         setChatMessages((prev) => [...prev, data]);
-    //     });
-    
-    //     // Emit get_users_in_room event
-    //     socket.current?.emit('get_users_in_room', roomId);
-    
-    //     // Clean up event listeners and disconnect the socket when the component unmounts
-    //     return () => {
-    //         socket.current?.off('users_in_room');
-    //         socket.current?.off('new_message');
-    //         socket.current?.disconnect();
-    //     };
-    
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [roomId, username]);
-
-
 
     if (
         // !session || 
@@ -85,7 +43,7 @@ const Videocall = () => {
     return (
         <div className="p-12 bg-gray-100 min-h-screen">
 
-            <button onClick={(e) => { e.preventDefault(); console.log("NAME:",name,"ME:", me, "USERSINROOM", usersInRoom) }}>
+            <button onClick={(e) => { e.preventDefault(); console.log("NAME:",name,"ME:", me,) }}>
                 LoG
             </button>
 
@@ -104,14 +62,6 @@ const Videocall = () => {
                 ))}
             </div>
 
-            <div className="users-list mt-6 border p-4 bg-white rounded-md">
-                <h3 className="text-xl mb-4">Users in Room:</h3>
-                {usersInRoom.map((user, index) => (
-                    <div key={index} className="mb-2">
-                        <span className="text-blue-500">{user.username}</span>
-                    </div>
-                ))}
-            </div>
 
             <div className="mt-6 flex items-center">
                 <input
