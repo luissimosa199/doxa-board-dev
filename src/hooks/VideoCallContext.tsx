@@ -16,6 +16,11 @@ type SocketContextType = {
   callUser: (id: string) => void,
   leaveCall: () => void,
   answerCall: () => void,
+  usersInRoom: UserInRoom[],
+  messages: ChatMessage[],
+  message: string,
+  sendMessage: () => void,
+  setMessage: (message: string) => void
 };
 
 type ContextProviderProps = {
@@ -30,10 +35,16 @@ type CallType = {
 };
 
 type UserInRoom = {
-  username: string;
+  name: string;
   id: string;
   room: string;
 }
+
+type ChatMessage = {
+    username: string;
+    message: string;
+    timestamp?: Date;
+};
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
@@ -61,6 +72,9 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   // const [] = useState()
 
   const [connectedToRoom, setConnectedToRoom] = useState<boolean>(false)
+  const [usersInRoom, setUsersInRoom] = useState<UserInRoom[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [message, setMessage] = useState<string>('');
 
   const myVideo = useRef<HTMLVideoElement | null>(null);
   const userVideo = useRef<HTMLVideoElement | null>(null);
@@ -77,34 +91,56 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
       });
 
     if (socket) {
-
       socket.on('me', (id) => setMe(id));
 
+      socket.on('usersInRoom', (usersInRoom: UserInRoom[]) => {
+        setUsersInRoom(usersInRoom);
+      });
+
+      socket.on('roomMessages', (roomMessages) => {
+        setMessages(roomMessages);
+      });
+
       socket.on('callUser', ({ from, name: callerName, signal }) => {
-        console.log("receivingcall")
         setCall({ isReceivingCall: true, from, name: callerName, signal });
       });
     }
+
+    return () => {
+      if (socket) {
+        socket.off('me');
+        socket.off('usersInRoom');
+        socket.off('roomMessages');
+        socket.off('callUser');
+      }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-
-    if (roomName && !connectedToRoom) {
-      console.log("connecting to room")
-      socket!.emit("joinRoomOnConnect", roomName);
-      setConnectedToRoom(true)
+    if (roomName && name && !connectedToRoom) { // Ensure name is also available
+      socket!.emit("joinRoomOnConnect", roomName, name, () => {
+        // No need to emit getUsersInRoom here. The backend will handle it.
+      });
+      setConnectedToRoom(true);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connectedToRoom])
+  }, [connectedToRoom, name]); // Added name as a dependency
 
   useEffect(() => {
-    if(session && session.user){
+    if (session && session.user) {
       setName(session?.user?.name as string)
     }
   }, [session])
-  
+
+  const sendMessage = () => {
+    if (socket && message.trim()) {
+      socket.emit('sendMessage', { room: roomName, message, username: name });
+      setMessage(''); // Clear the input after sending
+    }
+  };
+
+
 
   const answerCall = () => {
     setCallAccepted(true);
@@ -167,6 +203,11 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
       callUser,
       leaveCall,
       answerCall,
+      usersInRoom,
+      messages,
+      sendMessage,
+      message,
+      setMessage
     }}
     >
       {children}
