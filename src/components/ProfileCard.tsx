@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react'
 import ProfilePicture from './ProfilePicture'
 import { signOut, useSession } from 'next-auth/react'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from "@tanstack/react-query"
 import { uploadImages } from '@/utils/formHelpers'
 import PhotoInput from './PhotoInput'
 import AdsSwitch from './AdsSwitch'

@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useQuery } from "react-query";
+import { useQuery } from '@tanstack/react-query';
 
 interface UserInterface {
     name: string;
@@ -27,7 +27,7 @@ const Usuarios = () => {
         return response.json();
     };
 
-    const { data: users, error, isLoading } = useQuery('users', fetchUsers);
+    const { data: users, error, isLoading } = useQuery(['users'], fetchUsers);
 
     if (isLoading) return (
         <div className="mt-4 bg-white p-6 rounded-lg shadow-md animate-pulse">

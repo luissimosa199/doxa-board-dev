@@ -1,7 +1,7 @@
 import { fetchCategories } from "@/utils/getCategories";
 import Link from "next/link";
 import { useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from '@tanstack/react-query';
 
 type DataType = string | { value: string };
 
@@ -12,7 +12,7 @@ const CategoriesList = () => {
 
     const { data, isLoading, error } = useQuery<string[] | Error>({
         queryFn: fetchCategories,
-        queryKey: ['categories'],
+        queryKey: ["categories"],
         staleTime: 1000 * 60 * 30,
         cacheTime: 1000 * 60 * 30,
         keepPreviousData: true,
