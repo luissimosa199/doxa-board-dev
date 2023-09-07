@@ -14,15 +14,12 @@ export const uploadImages = async (event: ChangeEvent<HTMLInputElement>) => {
 
   if (event.target.files) {
     const files = Array.from(event.target.files);
-    console.log("@uploadImages>files", files)
 
     urls = await Promise.all(
       files.map(async (e) => {
         let file = e;
-
         const pngRgx = /\/png$/;
         const isPng = pngRgx.test(file.type);
-
         if (isPng) {
           const convertedFile = await convertToJpeg(file);
           file = convertedFile as File;
@@ -41,10 +38,8 @@ export const uploadImages = async (event: ChangeEvent<HTMLInputElement>) => {
 
         if (response.ok) {
           const jsonResponse = await response.json();
-          console.log("@uploadImages>response_url", jsonResponse.secure_url)
           return jsonResponse.secure_url;
         } else {
-          console.log("@uploadImages>response_not_ok", response)
           throw new Error("Upload failed");
         }
       })
@@ -54,9 +49,7 @@ export const uploadImages = async (event: ChangeEvent<HTMLInputElement>) => {
   }
 };
 
-export const handleFileChange = (
-  event: ChangeEvent<HTMLInputElement>
-) => {
+export const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
   return new Promise<string[]>((resolve, reject) => {
     const files = event.target.files;
     const newPreviews: string[] = [];
@@ -88,7 +81,6 @@ export const handleFileChange = (
     }
   });
 };
-
 
 export const handleFileAdding = (
   event: ChangeEvent<HTMLInputElement>,
