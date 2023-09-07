@@ -4,7 +4,7 @@ import Peer from 'simple-peer';
 import { useSession } from 'next-auth/react';
 
 type SocketContextType = {
-  call: any,
+  call: CallType,
   callAccepted: boolean,
   myVideo: any,
   userVideo: any,
@@ -13,14 +13,16 @@ type SocketContextType = {
   setName: (name: string) => void,
   callEnded: boolean,
   me: string,
-  callUser: (id: string) => void,
+  callRoom: () => void,
   leaveCall: () => void,
   answerCall: () => void,
   usersInRoom: UserInRoom[],
   messages: ChatMessage[],
   message: string,
   sendMessage: () => void,
-  setMessage: (message: string) => void
+  setMessage: (message: string) => void,
+  toggleCamera: () => void,
+  cameraIsOpen: boolean,
 };
 
 type ContextProviderProps = {
@@ -41,9 +43,9 @@ type UserInRoom = {
 }
 
 type ChatMessage = {
-    username: string;
-    message: string;
-    timestamp?: Date;
+  username: string;
+  message: string;
+  timestamp?: Date;
 };
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
@@ -60,7 +62,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
 
   const { data: session } = useSession()
 
-  const roomName = "1234"
+  const roomName = "1234" // router.query.roomId?
 
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
@@ -75,20 +77,13 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   const [usersInRoom, setUsersInRoom] = useState<UserInRoom[]>([]);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [message, setMessage] = useState<string>('');
+  const [cameraIsOpen, setCameraIsOpen] = useState<boolean>(false)
 
   const myVideo = useRef<HTMLVideoElement | null>(null);
   const userVideo = useRef<HTMLVideoElement | null>(null);
   const connectionRef = useRef<Peer.Instance | null>(null);
 
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-
-        if (myVideo.current) {
-          myVideo.current.srcObject = currentStream;
-        }
-      });
 
     if (socket) {
       socket.on('me', (id) => setMe(id));
@@ -101,7 +96,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
         setMessages(roomMessages);
       });
 
-      socket.on('callUser', ({ from, name: callerName, signal }) => {
+      socket.on('callRoom', ({ from, name: callerName, signal }) => {
         setCall({ isReceivingCall: true, from, name: callerName, signal });
       });
     }
@@ -111,7 +106,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
         socket.off('me');
         socket.off('usersInRoom');
         socket.off('roomMessages');
-        socket.off('callUser');
+        socket.off('callRoom');
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -125,7 +120,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
       setConnectedToRoom(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connectedToRoom, name]); // Added name as a dependency
+  }, [connectedToRoom, name]);
 
   useEffect(() => {
     if (session && session.user) {
@@ -140,9 +135,9 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
     }
   };
 
-
-
   const answerCall = () => {
+    startCamera()
+    setCameraIsOpen(true)
     setCallAccepted(true);
 
     const peer = new Peer({ initiator: false, trickle: false, stream });
@@ -160,11 +155,13 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
     connectionRef.current = peer;
   };
 
-  const callUser = () => { // Removed the id parameter
+  const callRoom = () => {
+    startCamera()
+    setCameraIsOpen(true)
     const peer = new Peer({ initiator: true, trickle: false, stream });
 
     peer.on('signal', (data) => {
-      socket?.emit('callUser', { roomToCall: roomName, signalData: data, from: me, name }); // Specify the room name here
+      socket?.emit('callRoom', { roomToCall: roomName, signalData: data, from: me, name });
     });
 
     peer.on('stream', (currentStream) => {
@@ -180,14 +177,35 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
     connectionRef.current = peer;
   };
 
+  const startCamera = () => {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+
+        if (myVideo.current) {
+          myVideo.current.srcObject = currentStream;
+        }
+      });
+  };
 
   const leaveCall = () => {
     setCallEnded(true);
 
     connectionRef.current!.destroy();
 
-    window.location.reload();
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+    }
   };
+
+  const toggleCamera = () => {
+    if (cameraIsOpen && stream) {
+      stream.getTracks().forEach((track) => track.stop());
+    } else {
+      startCamera()
+    }
+    setCameraIsOpen(!cameraIsOpen)
+  }
 
   return (
     <SocketContext.Provider value={{
@@ -200,14 +218,16 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
       setName,
       callEnded,
       me,
-      callUser,
+      callRoom,
       leaveCall,
       answerCall,
       usersInRoom,
       messages,
       sendMessage,
       message,
-      setMessage
+      setMessage,
+      toggleCamera,
+      cameraIsOpen
     }}
     >
       {children}
