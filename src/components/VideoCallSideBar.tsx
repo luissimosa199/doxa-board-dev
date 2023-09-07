@@ -17,7 +17,7 @@ const VideoCallSidebar: React.FC<SidebarProps> = ({ children }) => {
 
     return (
         <div className="flex justify-center p-8">
-            <div className="border-2 border-black p-6 rounded-md shadow-lg w-full max-w-xl">
+            <div className="rounded-md w-full max-w-xl">
                 <form className="flex flex-col">
                     <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
                         <div className="flex flex-col space-y-4">

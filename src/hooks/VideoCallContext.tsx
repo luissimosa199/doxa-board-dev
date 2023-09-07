@@ -1,55 +1,10 @@
-import React, { createContext, useState, useRef, useEffect } from 'react';
+import React, { createContext, useState, useRef, useEffect, Dispatch, SetStateAction } from 'react';
 import { Socket, io } from 'socket.io-client';
 import Peer from 'simple-peer';
 import { useSession } from 'next-auth/react';
-
-type SocketContextType = {
-  call: CallType,
-  callAccepted: boolean,
-  myVideo: any,
-  userVideo: any,
-  stream: any,
-  name: string,
-  setName: (name: string) => void,
-  callEnded: boolean,
-  me: string,
-  callRoom: () => void,
-  leaveCall: () => void,
-  answerCall: () => void,
-  usersInRoom: UserInRoom[],
-  messages: ChatMessage[],
-  message: string,
-  sendMessage: () => void,
-  setMessage: (message: string) => void,
-  toggleCamera: () => void,
-  cameraIsOpen: boolean,
-};
-
-type ContextProviderProps = {
-  children: React.ReactNode;
-};
-
-type CallType = {
-  isReceivingCall?: boolean;
-  from?: string;
-  name?: string;
-  signal?: any;
-};
-
-type UserInRoom = {
-  name: string;
-  id: string;
-  room: string;
-}
-
-type ChatMessage = {
-  username: string;
-  message: string;
-  timestamp?: Date;
-};
+import { CallType, ChatMessage, ContextProviderProps, SocketContextType, UserInRoom } from '@/types';
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
-
 
 const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
 
@@ -62,8 +17,6 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
 
   const { data: session } = useSession()
 
-  const roomName = "1234" // router.query.roomId?
-
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
   const [stream, setStream] = useState<MediaStream | undefined>()
@@ -71,13 +24,12 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   const [call, setCall] = useState<CallType>({});
   const [me, setMe] = useState('');
 
-  // const [] = useState()
-
   const [connectedToRoom, setConnectedToRoom] = useState<boolean>(false)
   const [usersInRoom, setUsersInRoom] = useState<UserInRoom[]>([]);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [message, setMessage] = useState<string>('');
   const [cameraIsOpen, setCameraIsOpen] = useState<boolean>(false)
+  const [roomName, setRoomName] = useState<string | null>(null);
 
   const myVideo = useRef<HTMLVideoElement | null>(null);
   const userVideo = useRef<HTMLVideoElement | null>(null);
@@ -120,7 +72,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
       setConnectedToRoom(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connectedToRoom, name]);
+  }, [connectedToRoom, name, roomName]);
 
   useEffect(() => {
     if (session && session.user) {
@@ -190,6 +142,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
 
   const leaveCall = () => {
     setCallEnded(true);
+    setCameraIsOpen(false)
 
     connectionRef.current!.destroy();
 
@@ -227,7 +180,8 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
       message,
       setMessage,
       toggleCamera,
-      cameraIsOpen
+      cameraIsOpen, 
+      setRoomName,
     }}
     >
       {children}
