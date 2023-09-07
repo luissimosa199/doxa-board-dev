@@ -14,6 +14,7 @@ export const uploadImages = async (event: ChangeEvent<HTMLInputElement>) => {
 
   if (event.target.files) {
     const files = Array.from(event.target.files);
+    console.log("@uploadImages>files", files)
 
     urls = await Promise.all(
       files.map(async (e) => {
@@ -40,12 +41,16 @@ export const uploadImages = async (event: ChangeEvent<HTMLInputElement>) => {
 
         if (response.ok) {
           const jsonResponse = await response.json();
+          console.log("@uploadImages>response_url", jsonResponse.secure_url)
           return jsonResponse.secure_url;
         } else {
+          console.log("@uploadImages>response_not_ok", response)
           throw new Error("Upload failed");
         }
       })
     );
+
+    console.log("@uploadImages>awaited(urls)", urls)
 
     return urls;
   }

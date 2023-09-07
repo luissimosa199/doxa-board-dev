@@ -43,7 +43,8 @@ const PrimaryForm = () => {
     const mutation = useMutation(
         async ({ data, urls }: { data: Omit<TimelineFormInputs, "_id" | "createdAt">; urls: string[] }) => {
 
-            console.log(urls)
+            console.log("@mutation:fires", urls)
+            console.log("@mutation:fires", { previews, images })
 
             const payload = {
                 ...data,
@@ -106,6 +107,7 @@ const PrimaryForm = () => {
     type ToggleFunction = (name: ModuleName) => void
 
     const toggleOpenModule: ToggleFunction = (name) => {
+
         if (name === "tags") {
             if (tagInputVisibility) {
                 setTagInputVisibility(false);
@@ -142,64 +144,66 @@ const PrimaryForm = () => {
     const handleUploadImages = async (event: ChangeEvent<HTMLInputElement>) => {
         setSubmitBtnDisabled(true);
         const newPreviews = await handleFileChange(event);
+        console.log("previews in handleUploadImages", { newPreviews, previews } )
         setPreviews(prevPreviews => [...prevPreviews, ...newPreviews]);
+
         const uploadPromise = uploadImages(event);
         setImageUploadPromise(uploadPromise);
+
         setImagesCaptions(prevCaptions => [
             ...prevCaptions,
             ...new Array(newPreviews.length).fill(0).map((_, index) => ({ idx: prevCaptions.length + index, value: '' }))
         ]);
         setSubmitBtnDisabled(false);
+        event.target.value = '';
     };
 
     const inputFileRef = useRef<HTMLInputElement | null>(null);
     const handleInputActivation = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        console.log("@handleInputActivation:fires", { previews, images })
         inputFileRef?.current?.click();
         toggleOpenModule("photo")
     };
 
     const onSubmit = async (data: TimelineFormInputs) => {
-
         if (data.mainText === '' && data.photo?.length === 0 && linksList.length === 0) {
-            return
+            return;
         }
 
-        setSubmitBtnDisabled(true)
-        const previewPhotos = createPhotoData(images, imagesCaption)
-        const previewData = createDataObject(data, previewPhotos, tagsList, session, linksList)
+        setSubmitBtnDisabled(true);
+        const previewPhotos = createPhotoData(images, imagesCaption);
+        const previewData = createDataObject(data, previewPhotos, tagsList, session, linksList);
         const { previousData } = optimisticUpdate({ data: previewData, images: images });
-        setTagsList([])
-        setLinksList([])
+
+        let urls: string[] = [];
+        if (imageUploadPromise) {
+            urls = await imageUploadPromise;
+            console.log("@onSubmit>if(imageUploadPromise)>awaited(ImageUploadPromise):reached", { "images": images, "urls": urls })
+            setImages([...images, ...urls]);
+            setImageUploadPromise(null);
+        }
+
+        const currentPhotos = createPhotoData(urls, imagesCaption);
+        const processedData = createDataObject(data, currentPhotos, tagsList, session, linksList);
+
+        try {
+            await mutation.mutateAsync({ data: processedData, urls });
+        } catch (err) {
+            if (previousData) {
+                queryClient.setQueryData<{ pages: TimelineFormInputs[][], pageParams: any[] }>('timelines', previousData);
+            }
+            throw err;
+        }
+
+        // Reset state only after successful submission
+        setTagsList([]);
+        setLinksList([]);
         setImages([]);
         reset();
-        if (imageUploadPromise) {
-            const urls = await imageUploadPromise;
-            setImages(prevImages => [...prevImages, ...(urls as string[])]);
-            const currentPhotos = createPhotoData(urls, imagesCaption);
-            const processedData = createDataObject(data, currentPhotos, tagsList, session, linksList);
-            setImageUploadPromise(null);
-            try {
-                console.log(urls);
-                await mutation.mutateAsync({ data: processedData, urls });
-            } catch (err) {
-                if (previousData) {
-                    queryClient.setQueryData<{ pages: TimelineFormInputs[][], pageParams: any[] }>('timelines', previousData);
-                }
-                throw err
-            }
-        } else {
-            try {
-                await mutation.mutateAsync({ data: previewData, urls: [] })
-            } catch (err) {
-                if (previousData) {
-                    queryClient.setQueryData<{ pages: TimelineFormInputs[][], pageParams: any[] }>('timelines', previousData);
-                }
-                throw err
-            }
-        }
-        setSubmitBtnDisabled(false)
+        setSubmitBtnDisabled(false);
     };
+
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mt-12 border-2 flex flex-col min-h-48 my-4 rounded-md max-w-[850px] mx-auto">
