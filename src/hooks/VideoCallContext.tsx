@@ -11,7 +11,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket | null>(null)
 
   if (!socket) {
-    const newSocket = io('http://192.168.0.4/:4000');
+    const newSocket = io('http://192.168.0.4:4000');
     setSocket(newSocket)
   }
 
