@@ -43,9 +43,6 @@ const PrimaryForm = () => {
     const mutation = useMutation(
         async ({ data, urls }: { data: Omit<TimelineFormInputs, "_id" | "createdAt">; urls: string[] }) => {
 
-            console.log("@mutation:fires", urls)
-            console.log("@mutation:fires", { previews, images })
-
             const payload = {
                 ...data,
                 photo: urls.map((url, photoIdx: number) => {
@@ -144,24 +141,30 @@ const PrimaryForm = () => {
     const handleUploadImages = async (event: ChangeEvent<HTMLInputElement>) => {
         setSubmitBtnDisabled(true);
         const newPreviews = await handleFileChange(event);
-        console.log("previews in handleUploadImages", { newPreviews, previews } )
         setPreviews(prevPreviews => [...prevPreviews, ...newPreviews]);
 
-        const uploadPromise = uploadImages(event);
-        setImageUploadPromise(uploadPromise);
+        try {
+            const uploadedUrls = await uploadImages(event);
 
-        setImagesCaptions(prevCaptions => [
-            ...prevCaptions,
-            ...new Array(newPreviews.length).fill(0).map((_, index) => ({ idx: prevCaptions.length + index, value: '' }))
-        ]);
+            // If you want to set the URLs to some state
+            setImages(prevImages => [...prevImages, ...uploadedUrls as string[]]);
+
+            setImagesCaptions(prevCaptions => [
+                ...prevCaptions,
+                ...new Array(newPreviews.length).fill(0).map((_, index) => ({ idx: prevCaptions.length + index, value: '' }))
+            ]);
+        } catch (error) {
+            console.error("Error uploading images:", error);
+        }
+
         setSubmitBtnDisabled(false);
         event.target.value = '';
     };
 
+
     const inputFileRef = useRef<HTMLInputElement | null>(null);
     const handleInputActivation = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        console.log("@handleInputActivation:fires", { previews, images })
         inputFileRef?.current?.click();
         toggleOpenModule("photo")
     };
@@ -179,7 +182,6 @@ const PrimaryForm = () => {
         let urls: string[] = [];
         if (imageUploadPromise) {
             urls = await imageUploadPromise;
-            console.log("@onSubmit>if(imageUploadPromise)>awaited(ImageUploadPromise):reached", { "images": images, "urls": urls })
             setImages([...images, ...urls]);
             setImageUploadPromise(null);
         }
@@ -188,7 +190,7 @@ const PrimaryForm = () => {
         const processedData = createDataObject(data, currentPhotos, tagsList, session, linksList);
 
         try {
-            await mutation.mutateAsync({ data: processedData, urls });
+            await mutation.mutateAsync({ data: processedData, urls: images });
         } catch (err) {
             if (previousData) {
                 queryClient.setQueryData<{ pages: TimelineFormInputs[][], pageParams: any[] }>('timelines', previousData);

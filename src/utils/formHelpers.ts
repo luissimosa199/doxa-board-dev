@@ -50,8 +50,6 @@ export const uploadImages = async (event: ChangeEvent<HTMLInputElement>) => {
       })
     );
 
-    console.log("@uploadImages>awaited(urls)", urls)
-
     return urls;
   }
 };
