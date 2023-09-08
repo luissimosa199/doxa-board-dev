@@ -12,7 +12,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
 
   if (!socket) {
 
-    const newSocket = io('http://192.168.0.4:4000');
+    const newSocket = io('http://62.72.11.6:8082/');
 
     setSocket(newSocket)
   }
