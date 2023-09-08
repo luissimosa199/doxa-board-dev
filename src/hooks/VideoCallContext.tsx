@@ -12,7 +12,13 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
 
   if (!socket) {
 
-    const newSocket = io('http://62.72.11.6:8082/');
+    // const newSocket = io('https://ea40-2800-810-497-1a04-54e2-f9f4-8574-cac5.ngrok-free.app');
+
+    const newSocket = io('https://ea40-2800-810-497-1a04-54e2-f9f4-8574-cac5.ngrok-free.app', {
+    extraHeaders: {
+        Host: 'ea40-2800-810-497-1a04-54e2-f9f4-8574-cac5.ngrok-free.app'
+    }
+});
 
     setSocket(newSocket)
   }
