@@ -12,13 +12,13 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
 
   if (!socket) {
 
-    // const newSocket = io('https://ea40-2800-810-497-1a04-54e2-f9f4-8574-cac5.ngrok-free.app');
+    const newSocket = io('http://localhost:4000');
 
-    const newSocket = io('https://ea40-2800-810-497-1a04-54e2-f9f4-8574-cac5.ngrok-free.app', {
-      extraHeaders: {
-        'ngrok-skip-browser-warning': 'true'
-      }
-    });
+    // const newSocket = io('https://ea40-2800-810-497-1a04-54e2-f9f4-8574-cac5.ngrok-free.app', {
+    //   extraHeaders: {
+    //     'ngrok-skip-browser-warning': 'true'
+    //   }
+    // });
 
     setSocket(newSocket)
   }
@@ -103,7 +103,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
     const peer = new Peer({ initiator: false, trickle: false, stream });
 
     peer.on('signal', (data) => {
-      socket?.emit('answerCall', { signal: data, room: roomName }); // Specify the room name here
+      socket?.emit('answerCall', { signal: data, room: roomName });
     });
 
     peer.on('stream', (currentStream) => {
@@ -145,7 +145,11 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
         if (myVideo.current) {
           myVideo.current.srcObject = currentStream;
         }
+      })
+      .catch(error => {
+        console.error("Error accessing camera and microphone:", error);
       });
+
   };
 
   const leaveCall = () => {
