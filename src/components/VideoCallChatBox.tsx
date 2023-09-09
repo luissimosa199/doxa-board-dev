@@ -14,7 +14,7 @@ const VideoCallChatBox = () => {
 
     return (
         <>
-            <div className="relative h-full">
+            <div className="relative">
                 <div className="mt-6 flex flex-col items-center overflow-y-auto justify-center z-0 relative ">
                     {messages && messages.map((e, i) => {
                         return (
@@ -26,7 +26,9 @@ const VideoCallChatBox = () => {
                 </div>
 
             </div>
-            <form onSubmit={sendMessage} className="mt-6 flex items-center w-full justify-center sticky bottom-0">
+            <form 
+            className="mt-6 flex items-center w-full justify-center sticky bottom-0"
+            >
                 <input
                     type="text"
                     value={message}
@@ -36,6 +38,7 @@ const VideoCallChatBox = () => {
                 />
 
                 <button
+                    onClick={(e) => { e.preventDefault(); sendMessage() }}
                     type="submit"
                     className="ml-2 py-2 px-4 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none"
                 >

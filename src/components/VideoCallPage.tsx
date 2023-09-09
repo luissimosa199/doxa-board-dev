@@ -120,9 +120,9 @@ const VideoCallPage = () => {
             <div className="border-2 col-span-3 row-span-2 flex">
 
 
-                {/* Chat Display */}
-                <div className="w-2/3 border p-4 rounded-md mb-4 overflow-y-auto" >
+                <div className="w-2/3 border-2 p-4 rounded-md mb-4 " >
 
+                    {/* Chat Display */}
                     <div className="border-2 rounded p-2 sticky top-0 bg-slate-200 flex gap-2 z-20 justify-between">
                         <div>
                             {usersInRoom.map(({ name }, index) => (
@@ -143,7 +143,7 @@ const VideoCallPage = () => {
                         </div>
                     </div>
 
-                    <div className="h-full">
+                    <div className="h-[80%] b-4 overflow-y-auto">
                         <VideoCallChatBox />
                     </div>
 

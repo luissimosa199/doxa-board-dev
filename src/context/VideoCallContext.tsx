@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { Socket, io } from 'socket.io-client';
 import { useSession } from 'next-auth/react';
 import { ChatMessage, ContextProviderProps, SocketContextType, UserInRoom } from '@/types';
@@ -62,12 +62,12 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
         }
     }, [session]);
 
-    const sendMessage = () => {
+    const sendMessage = useCallback(() => {
         if (socket && message.trim()) {
             socket.emit('sendMessage', { room: roomName, message, username: name });
             setMessage(''); // Clear the input after sending
         }
-    };
+    }, [socket, message, roomName, name, setMessage]);
 
     return (
         <SocketContext.Provider value={{
