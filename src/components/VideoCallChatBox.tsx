@@ -1,5 +1,5 @@
 import { SocketContext } from '@/context/VideoCallContext';
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 const VideoCallChatBox = () => {
 
@@ -9,21 +9,23 @@ const VideoCallChatBox = () => {
         throw new Error("You must use this component within a <ContextProvider>");
     }
 
-    const { messages, message, sendMessage, setMessage, } = context
+    const { messages, message, sendMessage, setMessage } = context
 
 
     return (
-        <div className="relative">
-            <div className="mt-6 flex flex-col items-center overflow-y-auto justify-center z-0 relative ">
-                {messages && messages.map((e, i) => {
-                    return (
-                        <p className="bg-white w-full" key={i}>
-                            <strong className="text-blue-500">{e.username}:</strong> {e.message}
-                        </p>
-                    )
-                })}
-            </div>
+        <>
+            <div className="relative h-full">
+                <div className="mt-6 flex flex-col items-center overflow-y-auto justify-center z-0 relative ">
+                    {messages && messages.map((e, i) => {
+                        return (
+                            <p className="bg-white w-full" key={i}>
+                                <strong className="text-blue-500">{e.username}:</strong> {e.message}
+                            </p>
+                        )
+                    })}
+                </div>
 
+            </div>
             <form onSubmit={sendMessage} className="mt-6 flex items-center w-full justify-center sticky bottom-0">
                 <input
                     type="text"
@@ -40,7 +42,7 @@ const VideoCallChatBox = () => {
                     Enviar
                 </button>
             </form>
-        </div>
+        </>
     )
 }
 

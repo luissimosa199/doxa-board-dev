@@ -1,5 +1,5 @@
-// import { faVideo } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVideo } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -75,13 +75,11 @@ const Usuarios = () => {
 
                                 {/* <Link href="/usuarios/id">Ver publicaciones</Link> */}
 
-
-
-                                {/* {session?.user?.email !== user.email && <div className="">
-                                    <Link href={`/videocall/${(session!.user!.email as string).split('@')[0]}${user.email.split('@')[0]}`}>
+                                {session?.user?.email !== user.email && <div className="">
+                                    <Link href={`/videocall/${(session!.user!.email as string).split('@')[0]}y${user.email.split('@')[0]}`}>
                                         <FontAwesomeIcon icon={faVideo} />
                                     </Link>
-                                </div>} */}
+                                </div>}
 
 
                             </div>

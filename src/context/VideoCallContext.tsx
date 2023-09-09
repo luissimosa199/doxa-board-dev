@@ -79,6 +79,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
             message,
             setMessage,
             setRoomName,
+            roomName
         }}
         >
             {children}

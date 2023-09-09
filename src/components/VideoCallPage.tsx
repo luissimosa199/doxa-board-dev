@@ -3,6 +3,8 @@ import { ClientConfig, IAgoraRTCRemoteUser, createClient, createMicrophoneAndCam
 import { useRouter } from 'next/router';
 import { SocketContext } from '@/context/VideoCallContext';
 import VideoCallChatBox from './VideoCallChatBox';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
 
 const config = { mode: "rtc", codec: "vp8", appid: "c2a17faedf124435a895dab019e37429" };
@@ -30,7 +32,7 @@ const VideoCallPage = () => {
         throw new Error("You must use this component within a <ContextProvider>");
     }
 
-    const { usersInRoom, setRoomName } = context
+    const { usersInRoom, setRoomName, roomName } = context
 
     useEffect(() => {
         setRoomName(channelName)
@@ -120,16 +122,28 @@ const VideoCallPage = () => {
 
                 {/* Chat Display */}
                 <div className="w-2/3 border p-4 rounded-md mb-4 overflow-y-auto" >
-                    
-                    <div className="border-2 rounded p-2 sticky top-0 bg-slate-200 flex gap-2 z-20">
-                        {usersInRoom.map(({ name }, index) => (
-                            <div key={index} className="">
-                                <strong className="text-blue-500">{name}</strong>
-                            </div>
-                        ))}
+
+                    <div className="border-2 rounded p-2 sticky top-0 bg-slate-200 flex gap-2 z-20 justify-between">
+                        <div>
+                            {usersInRoom.map(({ name }, index) => (
+                                <div key={index} className="">
+                                    <strong className="text-blue-500">{name}</strong>
+                                </div>
+                            ))}
+                        </div>
+                        <div>
+                            {roomName &&
+                                <div className="flex">
+                                    <p>Comparte este link: {`${process.env.NEXT_PUBLIC_BASE_URL}/videocall/${roomName}`}</p>
+                                    <button className="ml-2" onClick={(e) => { e.preventDefault(); navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_BASE_URL}/videocall/${roomName}`); }} >
+                                        <FontAwesomeIcon icon={faCopy} className='text-slate-500' />
+                                    </button>
+                                </div>
+                            }
+                        </div>
                     </div>
 
-                    <div>
+                    <div className="h-full">
                         <VideoCallChatBox />
                     </div>
 

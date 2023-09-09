@@ -7,7 +7,7 @@ const VideoCallPage = dynamic(() => import('@/components/VideoCallPage'), {
 });
 
 const DynamicContextProvider = dynamic(() => import('@/context/VideoCallContext').then(mod => mod.ContextProvider), {
-    loading: () => <p>Loading...</p>,
+    loading: () => <p className="m-4 text-xl">Cargando...</p>,
     ssr: false
 });
 
