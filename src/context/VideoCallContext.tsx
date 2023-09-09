@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { Socket, io } from 'socket.io-client';
 import { useSession } from 'next-auth/react';
 import { ChatMessage, ContextProviderProps, SocketContextType, UserInRoom } from '@/types';
+import { useRouter } from 'next/router';
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
@@ -16,6 +17,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
     }
 
     const { data: session } = useSession();
+    const router = useRouter()
 
     const [name, setName] = useState<string>('');
     const [usersInRoom, setUsersInRoom] = useState<UserInRoom[]>([]);
@@ -31,12 +33,10 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
             });
 
             socket.on('roomMessages', (roomMessages) => {
-                console.log('roomMessages',roomMessages)
                 setMessages(roomMessages);
             });
 
             if ( roomName && session && session.user) {
-                console.log("@useEffect>JoinRoom", { session, roomName })
                 // Join the room
                 const roomToJoin = roomName; // Replace with your actual room name
                 const userName = session.user.name;   // Replace with the actual user's name
@@ -45,6 +45,10 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
                 });
             }
         }
+
+        setTimeout(() => {
+            router.push("/")
+        }, 1000 * 60 * 2);
 
         return () => {
             if (socket) {
