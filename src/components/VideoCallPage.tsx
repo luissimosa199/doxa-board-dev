@@ -1,6 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { ClientConfig, IAgoraRTCRemoteUser, createClient, createMicrophoneAndCameraTracks } from 'agora-rtc-react';
 import { useRouter } from 'next/router';
+import { SocketContext } from '@/context/VideoCallContext';
+import VideoCallChatBox from './VideoCallChatBox';
 
 
 const config = { mode: "rtc", codec: "vp8", appid: "c2a17faedf124435a895dab019e37429" };
@@ -22,7 +24,16 @@ const VideoCallPage = () => {
 
     const localVideoRef = useRef<HTMLDivElement>(null);
 
+    const context = useContext(SocketContext);
+
+    if (!context) {
+        throw new Error("You must use this component within a <ContextProvider>");
+    }
+
+    const { usersInRoom, setRoomName } = context
+
     useEffect(() => {
+        setRoomName(channelName)
         if (ready && tracks && !isClientReady) {
             client.join(config.appid, channelName, null).then(uid => {
                 client.publish(tracks);
@@ -30,6 +41,7 @@ const VideoCallPage = () => {
                 setIsClientReady(true);  // Set the client as ready after joining
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [client, tracks, ready, isClientReady, channelName]);
 
     // This useEffect handles the local video track
@@ -89,26 +101,53 @@ const VideoCallPage = () => {
     }, [remoteUsers]);
 
     return (
-        <div className="relative w-full h-screen flex items-center justify-center bg-black">
-            <p className="absolute top-4 left-4 text-white">VideoCallComponent</p>
-    
-            {/* Local Stream */}
-            <div 
-                ref={localVideoRef} 
-                className="absolute bottom-4 right-4 w-1/4 h-1/4 border-2 border-white rounded-md z-50 "
-            ></div>
-    
-            {/* Remote Streams */}
-            {remoteUsers.map(user => (
-                <div 
-                    key={user.uid} 
-                    id={`video-${user.uid}`} 
-                    className="w-full h-full border-2 border-white rounded-md"
-                ></div>
-            ))}
+        <div className="w-full h-screen grid grid-rows-5 grid-cols-3 gap-2">
+
+            <div className="border-2 col-span-3 row-span-3">
+
+                {/* Remote Streams */}
+                {remoteUsers.map(user => (
+                    <div
+                        key={user.uid}
+                        id={`video-${user.uid}`}
+                        className="w-full h-full border-2 rounded-md mb-4"
+                    ></div>
+                ))}
+            </div>
+
+            <div className="border-2 col-span-3 row-span-2 flex">
+
+
+                {/* Chat Display */}
+                <div className="w-2/3 border p-4 rounded-md mb-4 overflow-y-auto" >
+                    
+                    <div className="border-2 rounded p-2 sticky top-0 bg-slate-200 flex gap-2 z-20">
+                        {usersInRoom.map(({ name }, index) => (
+                            <div key={index} className="">
+                                <strong className="text-blue-500">{name}</strong>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div>
+                        <VideoCallChatBox />
+                    </div>
+
+                </div>
+
+                {/* Local Stream */}
+                <div className="w-1/3 border-2 rounded-md mb-4">
+                    <div
+                        ref={localVideoRef}
+                        className="w-full h-full"
+                    ></div>
+                </div>
+
+
+            </div>
         </div>
     );
-    
+
 }
 
 export default VideoCallPage;

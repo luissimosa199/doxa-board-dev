@@ -2,14 +2,22 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 
 const VideoCallPage = dynamic(() => import('@/components/VideoCallPage'), {
-  loading: () => <p>Loading...</p>,
-  ssr: false
+    loading: () => <p>Loading...</p>,
+    ssr: false
+});
+
+const DynamicContextProvider = dynamic(() => import('@/context/VideoCallContext').then(mod => mod.ContextProvider), {
+    loading: () => <p>Loading...</p>,
+    ssr: false
 });
 
 const VideoCall = () => {
-  return (
-    <VideoCallPage />
-  );
+    return (
+        <DynamicContextProvider>
+            <VideoCallPage />
+        </DynamicContextProvider>
+    );
 }
 
-export default VideoCall
+export default VideoCall;
+
