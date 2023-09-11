@@ -123,7 +123,7 @@ const VideoCallPage = () => {
 
                     {/* Chat Display */}
                     <div className="rounded p-2 sticky top-0 bg-slate-200 flex gap-2 z-20 justify-between text-xs sm:text-base">
-                        <div className="hidden md:flex gap-2">
+                        <div className="hidden  md:flex gap-2">
                             {usersInRoom.map(({ name }, index) => (
                                 <div key={index} className="">
                                     <strong className="text-blue-500">{name}</strong>
