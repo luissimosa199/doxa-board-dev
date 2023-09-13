@@ -47,10 +47,6 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
             }
         }
 
-        setTimeout(() => {
-            router.push("/")
-        }, 1000 * 60 * 2);
-
         return () => {
             if (socket) {
                 socket.off('usersInRoom');
