@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../db/dbConnect"; // Adjust the path to your MongoDB connection utility
-import { User, UserModel } from "../../db/models/userModel"; // Adjust the path to your User model
+import { UserModel } from "../../db/models/userModel"; // Adjust the path to your User model
 import bcrypt from "bcrypt";
 
 export default async function handler(
