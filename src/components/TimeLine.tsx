@@ -71,7 +71,7 @@ const TimeLine: FunctionComponent<TimeLineProps> = ({ timeline, length, mainText
     const timeLineUrl = BASE_URL + `/nota/${urlSlug ? urlSlug : _id}`
 
     return (
-        <div className="mb-4 max-w-[850px] mx-auto">
+        <div className="mb-4 max-w-[850px] mx-auto break-all">
             <Head>
                 <HeadMetaTags
                     timeline={timeline}
