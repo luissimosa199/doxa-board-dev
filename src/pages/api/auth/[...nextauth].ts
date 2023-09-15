@@ -13,7 +13,7 @@ export interface CustomSession extends Session {
   role?: string;
 }
 
-interface CustomAdapterUser extends AdapterUser {
+export interface CustomAdapterUser extends AdapterUser {
   role?: string; // Assuming role is of type string; adjust as necessary
 }
 
