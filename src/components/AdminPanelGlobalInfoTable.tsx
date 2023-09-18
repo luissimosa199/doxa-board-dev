@@ -33,7 +33,7 @@ const GlobalInfoTable: React.FC<GlobalInfoTableProps> = ({ data, users }) => {
         </tr>
         <tr>
           <td className="px-6 bg-gray-50 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">% Usuarios registrados</td>
-          <td className="px-6 py-4 ">{users.length * 100 / data.length}%</td>
+          <td className="px-6 py-4 ">{(users.length * 100 / data.length).toFixed(2)}%</td>
         </tr>
         <tr>
           <td className="px-6 bg-gray-50 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Top 3 puntos de entrada</td>

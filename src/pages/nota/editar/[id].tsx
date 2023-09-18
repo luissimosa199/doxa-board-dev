@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { InputItem, TimeLineEntryData, TimelineFormInputs } from "@/types";
 import PhotoInput from "@/components/PhotoInput";
@@ -127,7 +127,7 @@ const Edit = () => {
         }
     );
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const processedData = {
@@ -150,20 +150,21 @@ const Edit = () => {
         } catch (err) {
             throw err;
         }
-    };
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mainText, photo, tagsList, author, uploadedImages]);
 
-
-    const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const handleTextChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
         setMainText(event.target.value);
-    }
+    }, []);
 
-    const handleCaptionChange = (index: number) => (event: ChangeEvent<HTMLInputElement>) => {
+    const handleCaptionChange = useCallback((index: number) => (event: ChangeEvent<HTMLInputElement>) => {
         const newPhoto = [...photo];
         newPhoto[index].caption = event.target.value;
         setPhoto(newPhoto);
-    }
+    }, [photo]);
 
-    const handleDeleteImage = (index: number) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleDeleteImage = useCallback((index: number) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
         const newUploadedImages = uploadedImages.filter((_, photoIndex) => photoIndex !== index);
         const newCaptions = newImageCaptions.filter((_, captionIndex) => captionIndex !== index);
@@ -171,22 +172,22 @@ const Edit = () => {
         setUploadedImages(newUploadedImages);
         setNewImageCaptions(newCaptions);
         setPhoto(newPhoto);
-    };
+    }, [uploadedImages, newImageCaptions, photo]);
 
-    const handleNewImageCaptionChange = (index: number) => (event: ChangeEvent<HTMLInputElement>) => {
+    const handleNewImageCaptionChange = useCallback((index: number) => (event: ChangeEvent<HTMLInputElement>) => {
         const newCaptions = [...newImageCaptions];
         newCaptions[index] = event.target.value;
         setNewImageCaptions(newCaptions);
-    };
+    }, [newImageCaptions]);
 
-    const handleUploadImages = async (event: ChangeEvent<HTMLInputElement>) => {
+    const handleUploadImages = useCallback(async (event: ChangeEvent<HTMLInputElement>) => {
         (await handleFileAdding(event, setNewImages));
         const uploadPromise = uploadImages(event);
         setImageUploadPromise(uploadPromise);
         const urls = await uploadImages(event) as string[];
         setUploadedImages(prevUrls => [...prevUrls, ...urls]);
         setNewImageCaptions(prevCaptions => [...prevCaptions, ...urls.map(_ => '')]);
-    };
+    }, []);
 
     return (
         <div className="container mx-auto p-4">

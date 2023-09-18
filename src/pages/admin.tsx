@@ -36,7 +36,7 @@ const Admin: FunctionComponent<AdminPageInterface> = ({ name, email }) => {
     // Your component logic remains here
     return (
         <div>
-            <p>Logueado como {name} ({email})</p>
+            <p className="mb-6 p-4">Logueado como {name} ({email})</p>
 
             <div className="mb-12">
                 <GlobalInfoTable data={data.userAgentData} users={data.users} />
