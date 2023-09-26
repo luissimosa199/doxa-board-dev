@@ -1,50 +1,62 @@
+import dbConnect from "@/db/dbConnect";
 import { TimeLineModel } from "@/db/models";
 import { GetServerSideProps } from "next/types";
 
 function generateSiteMap(urls: string[], tags: string[]): string {
-    return `<?xml version="1.0" encoding="UTF-8"?>
+  return `<?xml version="1.0" encoding="UTF-8"?>
      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
        <!--We manually set the two URLs we know already-->
        <url>
          <loc>${process.env.NEXT_PUBLIC_BASE_URL}</loc>
        </url>
 
-       ${tags.map((tag) => {
-        return `<url>
-                <loc>${process.env.NEXT_PUBLIC_BASE_URL}/nota/search?tags=${encodeURIComponent(tag)}</loc>
-            </url>`}).join('')}
+       ${tags
+         .map((tag) => {
+           return `<url>
+                <loc>${
+                  process.env.NEXT_PUBLIC_BASE_URL
+                }/nota/search?tags=${encodeURIComponent(tag)}</loc>
+            </url>`;
+         })
+         .join("")}
 
-       ${urls.map((e: string) => {
-            return `
+       ${urls
+         .map((e: string) => {
+           return `
          <url>
              <loc>${`${process.env.NEXT_PUBLIC_BASE_URL}/nota/${e}`}</loc>
-         </url>`}).join('')}
+         </url>`;
+         })
+         .join("")}
      </urlset>
    `;
 }
 
 function SiteMap() {
-    // getServerSideProps will do the heavy lifting
+  // getServerSideProps will do the heavy lifting
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+  await dbConnect();
 
-    // urlSlugs
-    const urlObjects = await TimeLineModel.find().select("urlSlug").lean();
-    const urls = urlObjects.map(obj => obj.urlSlug).filter(e => e !== undefined);
+  // urlSlugs
+  const urlObjects = await TimeLineModel.find().select("urlSlug").lean();
+  const urls = urlObjects
+    .map((obj) => obj.urlSlug)
+    .filter((e) => e !== undefined);
 
-    // categories
-    const tags = await TimeLineModel.distinct("tags");
+  // categories
+  const tags = await TimeLineModel.distinct("tags");
 
-    const sitemap = generateSiteMap(urls, tags);
+  const sitemap = generateSiteMap(urls, tags);
 
-    res.setHeader('Content-Type', 'text/xml');
-    res.write(sitemap);
-    res.end();
+  res.setHeader("Content-Type", "text/xml");
+  res.write(sitemap);
+  res.end();
 
-    return {
-        props: {},
-    };
-}
+  return {
+    props: {},
+  };
+};
 
 export default SiteMap;
