@@ -27,7 +27,6 @@ export default function Document() {
         ></script>
       </Head>
       <body>
-        <Ad />
         <Main />
         <NextScript />
       </body>
