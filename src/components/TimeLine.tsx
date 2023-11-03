@@ -98,8 +98,11 @@ const TimeLine: FunctionComponent<TimeLineProps> = ({
           <Ad />
         </div>
         <div className="px-4">
-          <div className="text-left">
-            {mainText &&
+          <div
+            className="prose max-w-[850px] break-normal"
+            dangerouslySetInnerHTML={{ __html: mainText || "" }}
+          >
+            {/* {mainText &&
               mainText.split("\n").map((paragraph, idx) => (
                 <p
                   key={idx}
@@ -111,7 +114,7 @@ const TimeLine: FunctionComponent<TimeLineProps> = ({
                 >
                   {paragraph}
                 </p>
-              ))}
+              ))} */}
           </div>
           <p className="text-sm text-gray-600 mt-2">{tags.join(", ")}</p>
           <p className="text-sm text-gray-500">{formatDateString(createdAt)}</p>
