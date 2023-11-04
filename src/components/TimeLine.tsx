@@ -99,7 +99,7 @@ const TimeLine: FunctionComponent<TimeLineProps> = ({
         </div>
         <div className="px-4">
           <div
-            className="prose max-w-[850px] break-normal"
+            className="prose min-w-full break-normal"
             dangerouslySetInnerHTML={{ __html: mainText || "" }}
           >
             {/* {mainText &&
