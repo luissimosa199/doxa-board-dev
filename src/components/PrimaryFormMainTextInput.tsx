@@ -1,10 +1,7 @@
 import { TimelineFormInputs } from "@/types";
 import { Editor } from "@tinymce/tinymce-react";
 import React, { useEffect } from "react";
-import {
-  UseFormRegister,
-  UseFormSetValue,
-} from "react-hook-form";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 const PrimaryFormMainTextInput = ({
   register,
@@ -15,7 +12,6 @@ const PrimaryFormMainTextInput = ({
   setValue: UseFormSetValue<TimelineFormInputs>;
   editorRef: React.MutableRefObject<any>;
 }) => {
-
   useEffect(() => {
     register("mainText");
   }, [register]);
@@ -29,15 +25,14 @@ const PrimaryFormMainTextInput = ({
         }}
         textareaName="mainText"
         onInit={(evt, editor) => (editorRef.current = editor)}
-        initialValue="<p>Escribe algo <strong>acá</strong>"
         init={{
           height: 100,
+          placeholder: "Escribí algo acá",
           menubar: false,
           plugins: [
             "advlist",
             "autolink",
             "lists",
-            "link",
             "image",
             "charmap",
             "preview",
@@ -54,7 +49,7 @@ const PrimaryFormMainTextInput = ({
           toolbar: false,
           statusbar: false,
           content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; cursor:text; }",
         }}
       />
     </div>
