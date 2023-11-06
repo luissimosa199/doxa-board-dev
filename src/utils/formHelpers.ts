@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { convertToJpeg } from "./convertToJpeg";
 import { Session } from "next-auth";
 import { v4 as uuidv4 } from "uuid";
+import { stripHtml } from "./stripHtml";
 
 const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_UPLOAD_PRESET =
@@ -271,7 +272,8 @@ export function generateSlug(
 
   // If there's a mainText, add it.
   if (post.mainText) {
-    components.push(...post.mainText.split(/\s+/).map(cleanWord));
+    const strippedText = stripHtml(post.mainText); // Strip HTML tags from mainText
+    components.push(...strippedText.split(/\s+/).map(cleanWord));
   }
 
   // If the length after adding mainText is less than minimum OR there's no mainText, then consider tags.
