@@ -94,28 +94,14 @@ const TimeLine: FunctionComponent<TimeLineProps> = ({
         />
       </Head>
       <div className="bg-white shadow-md rounded-lg py-4">
-        <div className="">
+        <div className="overflow-hidden">
           <Ad />
         </div>
         <div className="px-4">
           <div
             className="prose min-w-full break-normal"
             dangerouslySetInnerHTML={{ __html: mainText || "" }}
-          >
-            {/* {mainText &&
-              mainText.split("\n").map((paragraph, idx) => (
-                <p
-                  key={idx}
-                  className={`${
-                    mainText.length > 300
-                      ? "text-md font-normal"
-                      : "text-xl font-semibold"
-                  } mb-2 break-words `}
-                >
-                  {paragraph}
-                </p>
-              ))} */}
-          </div>
+          ></div>
           <p className="text-sm text-gray-600 mt-2">{tags.join(", ")}</p>
           <p className="text-sm text-gray-500">{formatDateString(createdAt)}</p>
           <p className="text-sm text-gray-500 capitalize">

@@ -46,7 +46,9 @@ const TimeLineEntry: FunctionComponent<TimeLineEntryProps> = ({
           />
         </div>
       </div>
-      <p className="text-lg text-gray-500 mt-2 ml-2">{data.caption}</p>
+      <p className="text-lg text-gray-500 mt-2 ml-2 break-normal">
+        {data.caption}
+      </p>
     </div>
   );
 };

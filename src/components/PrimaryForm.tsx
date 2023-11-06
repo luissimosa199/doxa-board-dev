@@ -235,6 +235,7 @@ const PrimaryForm = () => {
     );
 
     try {
+      console.log("@l238>PromaryForm.tsx", processedData.mainText);
       await mutation.mutateAsync({ data: processedData, urls: images });
     } catch (err) {
       if (previousData) {

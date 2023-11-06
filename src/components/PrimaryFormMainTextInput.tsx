@@ -26,6 +26,12 @@ const PrimaryFormMainTextInput = ({
         textareaName="mainText"
         onInit={(evt, editor) => (editorRef.current = editor)}
         init={{
+          invalid_styles: {
+            "*": "position width",
+          },
+          invalid_classes: {
+            "*": "sticky",
+          },
           height: 100,
           placeholder: "Escribí algo acá",
           menubar: false,
@@ -45,11 +51,15 @@ const PrimaryFormMainTextInput = ({
             "table",
             "code",
             "help",
+            "paste",
           ],
+          paste_preprocess: function (plugin, args) {
+            // args.content.replaceAll(""); // remove unwanted styles
+          },
           toolbar: false,
           statusbar: false,
           content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; cursor:text; }",
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; cursor:text; position: static; }",
         }}
       />
     </div>
