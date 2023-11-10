@@ -94,9 +94,9 @@ const TimeLine: FunctionComponent<TimeLineProps> = ({
         />
       </Head>
       <div className="bg-white shadow-md rounded-lg py-4">
-        <div className="overflow-hidden">
+        {/* <div className="overflow-hidden">
           <Ad />
-        </div>
+        </div> */}
         <div className="px-4">
           <div
             className="prose min-w-full break-normal"
