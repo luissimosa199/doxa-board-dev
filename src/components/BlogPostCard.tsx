@@ -24,16 +24,18 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
       <div className="flex flex-col h-full">
         <div className="relative">
           <div className="relative overflow-hidden w-[375px] lg:w-[475px] h-[315px]">
-            <Image
-              src={
-                timeline && timeline.length > 0
-                  ? (timeline[0].url as string)
-                  : "/assets/1.jpg"
-              }
-              className="absolute object-cover"
-              alt=""
-              fill
-            />
+            <Link href={`/blog/${urlSlug}`}>
+              <Image
+                src={
+                  timeline && timeline.length > 0
+                    ? (timeline[0].url as string)
+                    : "/assets/1.jpg"
+                }
+                className="absolute object-cover"
+                alt=""
+                fill
+              />
+            </Link>
           </div>
           <div className="absolute bottom-8 left-8 px-2 py-3 bg-white shadow-md">
             <div className="flex flex-col justify-center items-center">
@@ -48,7 +50,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
               <i className=""></i>
               {tags && tags.map((e) => `${e} `)}
             </h6>
-            <Link href="/">
+            <Link href={`/blog/${urlSlug}`}>
               <h5 className="text-[#333333] font-semibold text-lg">
                 {`${mainText && stripHtml(mainText).slice(0, 15)}${
                   mainText && mainText?.length > 15 ? "..." : ""

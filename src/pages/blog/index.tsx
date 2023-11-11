@@ -1,8 +1,9 @@
-import BlogPostCard from "@/components/BlogPostCard";
-import dbConnect from "@/db/dbConnect";
-import { TimeLineModel } from "@/db/models";
-import { TimelineFormInputs } from "@/types";
-import { getTimelines } from "@/utils/getTimelines";
+import CategoriesList from "@/components/CategoriesList";
+import BlogPostCard from "../../components/BlogPostCard";
+import dbConnect from "../../db/dbConnect";
+import { TimeLineModel } from "../../db/models";
+import { TimelineFormInputs } from "../../types";
+import { getTimelines } from "../../utils/getTimelines";
 import {
   QueryClient,
   dehydrate,
@@ -48,7 +49,9 @@ const Blog: FunctionComponent<BlogListProps> = ({ timelineData }) => {
       <div className="h-full w-max p-4 flex">
         {/* asideNav */}
         <div className="h-screen p-2">
-          <div className="sticky top-0 w-80 bg-gray-400 h-full"></div>
+          <div className="sticky top-0 w-80 h-full">
+            <CategoriesList />
+          </div>
         </div>
         {/* asidenav */}
         <div className="min-h-screen mx-2">

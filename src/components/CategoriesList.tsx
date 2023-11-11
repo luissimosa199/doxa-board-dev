@@ -2,6 +2,8 @@ import { fetchCategories } from "@/utils/getCategories";
 import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 
 type DataType = string | { value: string };
 
@@ -45,54 +47,35 @@ const CategoriesList = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-3xl mb-4">Categorías</h2>
-      <ul
-        className="mb-4 flex flex-wrap justify-around gap-2 px-2 overflow-hidden transition-all duration-500"
-        style={{ height: showAll ? "auto" : `${visibleItems * 0.35}rem` }}
-      >
+      <h2 className="text-2xl font-semibold mb-4">Categorías</h2>
+      <ul className="mb-4 flex flex-col justify-around gap-2 px-2 overflow-hidden transition-all duration-500">
         {(data as DataType[]).map((e, idx: number) => {
           const displayValue = typeof e === "string" ? e : e.value;
 
           return (
             <li
               key={idx}
-              className={`transform transition-all duration-500 ${
+              className={`transform transition-all duration-500 w-full border-b border-gray-300 py-2 ${
                 idx >= visibleItems && !showAll
                   ? "opacity-0 scale-0"
                   : "opacity-100 scale-100"
               }`}
             >
               <Link
-                className="capitalize py-1 px-2 hover:underline hover:text-gray-600"
+                className="capitalize py-1 px-2 hover:underline hover:text-gray-600 "
                 href={`/nota/search?tags=${displayValue}`}
               >
-                {displayValue}
+                <FontAwesomeIcon
+                  icon={faGreaterThan}
+                  className="mr-2"
+                  size="xs"
+                />{" "}
+                <span className="capitalize">{displayValue}</span>
               </Link>
             </li>
           );
         })}
       </ul>
-      <button
-        onClick={() => setShowAll(!showAll)}
-        className="focus:outline-none text-gray-500 hover:text-gray-600"
-      >
-        <svg
-          className={`w-5 h-5 transform transition-transform duration-300 ${
-            showAll ? "rotate-180" : ""
-          }`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          ></path>
-        </svg>
-      </button>
     </div>
   );
 };
