@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import React, { FunctionComponent } from "react";
+import PrimaryForm from "@/components/PrimaryForm";
 
 interface BlogListProps {
   timelineData: TimelineFormInputs[];
@@ -45,38 +46,42 @@ const Blog: FunctionComponent<BlogListProps> = ({ timelineData }) => {
   }
 
   return (
-    <section className="min-h-screen flex justify-center mx-auto">
-      <div className="h-full w-max p-4 flex">
-        {/* asideNav */}
-        <div className="h-screen p-2">
-          <div className="sticky top-0 w-80 h-full">
-            <CategoriesList />
+    <section className="flex flex-col">
+      <div className="my-4">
+        <PrimaryForm />
+      </div>
+      <div className="min-h-screen flex justify-center mx-auto">
+        <div className="h-full w-max p-4 flex">
+          <div className="h-screen p-2">
+            <div className="sticky top-0 w-80 h-full">
+              <CategoriesList />
+            </div>
           </div>
-        </div>
-        {/* asidenav */}
-        <div className="min-h-screen mx-2">
-          <div className="grid grid-cols-2 w-max">
-            {data?.pages.map((page) =>
-              page.map((e) => (
-                <div
-                  key={e._id}
-                  className="w-fit h-full px-2 flex-1"
-                >
-                  <BlogPostCard
-                    _id={e._id}
-                    tags={Array.isArray(e.tags) ? e.tags : [e.tags]}
-                    mainText={e.mainText}
-                    length={e.length}
-                    timeline={e.photo}
-                    createdAt={e.createdAt}
-                    authorId={e.authorId}
-                    authorName={e.authorName}
-                    links={e.links}
-                    urlSlug={e.urlSlug}
-                  />
-                </div>
-              ))
-            )}
+
+          <div className="min-h-screen mx-2">
+            <div className="grid grid-cols-2 w-max">
+              {data?.pages.map((page) =>
+                page.map((e) => (
+                  <div
+                    key={e._id}
+                    className="w-fit h-full px-2 flex-1"
+                  >
+                    <BlogPostCard
+                      _id={e._id}
+                      tags={Array.isArray(e.tags) ? e.tags : [e.tags]}
+                      mainText={e.mainText}
+                      length={e.length}
+                      timeline={e.photo}
+                      createdAt={e.createdAt}
+                      authorId={e.authorId}
+                      authorName={e.authorName}
+                      links={e.links}
+                      urlSlug={e.urlSlug}
+                    />
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>
