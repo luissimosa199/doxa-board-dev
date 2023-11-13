@@ -1,5 +1,4 @@
-import CategoriesList from "@/components/CategoriesList";
-import PrimaryForm from "@/components/PrimaryForm";
+import BlogsAsideMenu from "@/components/BlogsAsideMenu";
 import dbConnect from "@/db/dbConnect";
 import { TimeLineModel } from "@/db/models";
 import { TimelineFormInputs } from "@/types";
@@ -13,15 +12,11 @@ interface TimelinePageProps {
 }
 
 const BlogPost: FunctionComponent<TimelinePageProps> = ({ timelineData }) => {
-  console.log(timelineData);
-
   return (
     <section className="p-4 w-auto">
       <div className="lg:min-w-[1024px] max-w-[1700px] grid grid-cols-1 md:grid-rows-7 mx-auto">
-        <div className="md:col-span-1 min-h-screen min-w-[180px] md:max-w-[320px] pr-4">
-          <div className="h-full ">
-            <CategoriesList />
-          </div>
+        <div className="md:col-span-1 min-h-screen min-w-[180px] pr-4">
+          <BlogsAsideMenu />
         </div>
         <div className="md:col-start-2 col-span-4 min-h-screen">
           {/* content */}
@@ -31,7 +26,7 @@ const BlogPost: FunctionComponent<TimelinePageProps> = ({ timelineData }) => {
               {timelineData &&
                 timelineData.photo &&
                 timelineData.photo.length > 0 && (
-                  <div className="w-full h-[400px] md:h-[800px] lg:w-[800px] xl:w-[1000px] lg:h-[1300px] relative overflow-hidden">
+                  <div className="w-full h-[400px] md:min-h-[800px] lg:min-w-[800px] xl:min-w-[1000px] lg:h-[1300px] relative overflow-hidden">
                     <Image
                       fill
                       src={timelineData?.photo[0].url}

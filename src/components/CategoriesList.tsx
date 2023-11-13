@@ -1,9 +1,8 @@
 import { fetchCategories } from "@/utils/getCategories";
 import Link from "next/link";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 type DataType = string | { value: string };
 
@@ -52,18 +51,18 @@ const CategoriesList = () => {
           return (
             <li
               key={idx}
-              className={`transform transition-all duration-500 w-full border-b border-gray-300 py-2 text-base`}
+              className={`transform transition-all duration-500 w-full border-b border-gray-300 py-4 text-base`}
             >
               <Link
-                className="py-1 px-2 hover:underline hover:text-gray-600 "
+                className=" px-2 hover:underline hover:text-gray-600 "
                 href={`/nota/search?tags=${displayValue}`}
               >
                 <FontAwesomeIcon
-                  icon={faGreaterThan}
+                  icon={faAngleRight}
                   className="mr-2"
-                  size="xs"
+                  size="sm"
                 />{" "}
-                <span className="capitalize">{displayValue}</span>
+                <span className="capitalize text-md">{displayValue}</span>
               </Link>
             </li>
           );

@@ -12,12 +12,17 @@ import {
 import { GetServerSideProps } from "next";
 import React, { FunctionComponent } from "react";
 import PrimaryForm from "@/components/PrimaryForm";
+import useSearchTimeline from "@/hooks/useSearchTimeline";
+import BlogsAsideMenu from "@/components/BlogsAsideMenu";
 
 interface BlogListProps {
   timelineData: TimelineFormInputs[];
 }
 
 const Blog: FunctionComponent<BlogListProps> = ({ timelineData }) => {
+  const { searchValue, searchResult, handleSearchBar, setSearchValue } =
+    useSearchTimeline();
+
   const {
     data,
     isLoading,
@@ -41,8 +46,42 @@ const Blog: FunctionComponent<BlogListProps> = ({ timelineData }) => {
     }
   );
 
-  if (isLoading) {
+  const renderPosts = (posts: TimelineFormInputs[]) => {
+    return posts.map((e) => (
+      <div
+        key={e._id}
+        className="w-fit h-full md:px-2 flex-1"
+      >
+        <BlogPostCard
+          _id={e._id}
+          tags={Array.isArray(e.tags) ? e.tags : [e.tags]}
+          mainText={e.mainText}
+          length={e.length}
+          timeline={e.photo}
+          createdAt={e.createdAt}
+          authorId={e.authorId}
+          authorName={e.authorName}
+          links={e.links}
+          urlSlug={e.urlSlug}
+        />
+      </div>
+    ));
+  };
+
+  const renderLoading = () => {
     return <p>Cargando...</p>;
+  };
+
+  const renderError = () => {
+    return <p>Error: {JSON.stringify(error)}</p>;
+  };
+
+  if (isLoading) {
+    return renderLoading();
+  }
+
+  if (isError) {
+    return renderError();
   }
 
   return (
@@ -53,34 +92,17 @@ const Blog: FunctionComponent<BlogListProps> = ({ timelineData }) => {
       <div className="min-h-screen flex justify-center mx-auto">
         <div className="h-full md:p-4 flex flex-col justify-center md:flex-row  ">
           <div className="h-fit p-2">
-            <div className=" md:w-80 h-full">
-              <CategoriesList />
-            </div>
+            <BlogsAsideMenu
+              handleSearchBar={handleSearchBar}
+              setSearchValue={setSearchValue}
+            />
           </div>
 
           <div className="min-h-screen md:mx-2">
             <div className="grid grid-cols-1 xl:grid-cols-2 w-max">
-              {data?.pages.map((page) =>
-                page.map((e) => (
-                  <div
-                    key={e._id}
-                    className="w-fit h-full md:px-2 flex-1"
-                  >
-                    <BlogPostCard
-                      _id={e._id}
-                      tags={Array.isArray(e.tags) ? e.tags : [e.tags]}
-                      mainText={e.mainText}
-                      length={e.length}
-                      timeline={e.photo}
-                      createdAt={e.createdAt}
-                      authorId={e.authorId}
-                      authorName={e.authorName}
-                      links={e.links}
-                      urlSlug={e.urlSlug}
-                    />
-                  </div>
-                ))
-              )}
+              {searchValue && searchResult
+                ? renderPosts(searchResult)
+                : renderPosts(data?.pages.flat())}
             </div>
           </div>
         </div>
