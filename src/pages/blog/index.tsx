@@ -1,4 +1,3 @@
-import CategoriesList from "@/components/CategoriesList";
 import BlogPostCard from "../../components/BlogPostCard";
 import dbConnect from "../../db/dbConnect";
 import { TimeLineModel } from "../../db/models";
@@ -11,7 +10,6 @@ import {
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import React, { FunctionComponent } from "react";
-import PrimaryForm from "@/components/PrimaryForm";
 import useSearchTimeline from "@/hooks/useSearchTimeline";
 import BlogsAsideMenu from "@/components/BlogsAsideMenu";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
@@ -98,9 +96,7 @@ const Blog: FunctionComponent<BlogListProps> = ({ timelineData }) => {
 
   return (
     <section className="flex flex-col items-center w-full">
-      <div className="my-4 flex w-full px-2 justify-center">
-        <PrimaryForm />
-      </div>
+      <div className="my-4 flex w-full px-2 justify-center"></div>
       <div className="min-h-screen flex justify-center mx-auto">
         <div className="h-full md:p-4 flex flex-col justify-center md:flex-row  ">
           <div className="h-fit p-2">

@@ -73,8 +73,8 @@ const BlogsAsideMenu = ({
         <CategoriesList />
       </div>
 
-      <div className="border w-full h-96"></div>
-      <div className="border w-full h-48"></div>
+      {/* <div className="border w-full h-96"></div>
+      <div className="border w-full h-48"></div> */}
     </div>
   );
 };
