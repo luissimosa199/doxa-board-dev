@@ -39,7 +39,6 @@ const BlogsAsideMenu = ({
       if (inputRef.current) {
         inputRef.current.focus();
         if (setSearchValue) {
-          console.log("@BlogsASideMenu");
           setSearchValue(barcontent as string);
         }
       }
