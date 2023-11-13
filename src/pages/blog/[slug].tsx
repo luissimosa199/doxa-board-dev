@@ -15,7 +15,7 @@ const BlogPost: FunctionComponent<TimelinePageProps> = ({ timelineData }) => {
   return (
     <section className="p-4 w-auto">
       <div className="lg:min-w-[1024px] max-w-[1700px] grid grid-cols-1 md:grid-rows-7 mx-auto">
-        <div className="md:col-span-1 min-h-screen min-w-[180px] pr-4">
+        <div className="md:col-span-1 min-w-[180px] pr-4">
           <BlogsAsideMenu />
         </div>
         <div className="md:col-start-2 col-span-4 min-h-screen">
