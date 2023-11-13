@@ -259,7 +259,7 @@ const PrimaryForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mt-12 border-2 flex flex-col min-h-48 my-4 rounded-md max-w-[850px] mx-auto"
+      className="mt-12 border-2 flex flex-col min-h-48 my-4 rounded-md max-w-[850px] w-full"
     >
       <div className="h-2/3 flex">
         <div className="w-32">

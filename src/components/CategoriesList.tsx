@@ -48,18 +48,14 @@ const CategoriesList = () => {
   return (
     <div className="p-4">
       <h2 className="text-2xl font-semibold mb-4">Categorías</h2>
-      <ul className="mb-4 flex flex-col justify-around gap-2 px-2 overflow-hidden transition-all duration-500">
+      <ul className="mb-4 flex flex-col justify-around gap-2 px-2 transition-all duration-500">
         {(data as DataType[]).map((e, idx: number) => {
           const displayValue = typeof e === "string" ? e : e.value;
 
           return (
             <li
               key={idx}
-              className={`transform transition-all duration-500 w-full border-b border-gray-300 py-2 ${
-                idx >= visibleItems && !showAll
-                  ? "opacity-0 scale-0"
-                  : "opacity-100 scale-100"
-              }`}
+              className={`transform transition-all duration-500 w-full border-b border-gray-300 py-2`}
             >
               <Link
                 className="capitalize py-1 px-2 hover:underline hover:text-gray-600 "
