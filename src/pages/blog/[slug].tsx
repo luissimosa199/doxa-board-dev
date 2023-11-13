@@ -16,14 +16,14 @@ const BlogPost: FunctionComponent<TimelinePageProps> = ({ timelineData }) => {
   console.log(timelineData);
 
   return (
-    <section className="p-4">
-      <div className="min-w-[1024px] max-w-[1700px] grid grid-rows-7 mx-auto">
-        <div className="col-span-1 min-h-screen min-w-[180px] pr-4">
-          <div className=" h-full w-full">
+    <section className="p-4 w-auto">
+      <div className="lg:min-w-[1024px] max-w-[1700px] grid grid-cols-1 md:grid-rows-7 mx-auto">
+        <div className="md:col-span-1 min-h-screen min-w-[180px] md:max-w-[320px] pr-4">
+          <div className="h-full ">
             <CategoriesList />
           </div>
         </div>
-        <div className="col-start-2 col-span-4 min-h-screen">
+        <div className="md:col-start-2 col-span-4 min-h-screen">
           {/* content */}
           <div className="">
             <div className="">
@@ -31,7 +31,7 @@ const BlogPost: FunctionComponent<TimelinePageProps> = ({ timelineData }) => {
               {timelineData &&
                 timelineData.photo &&
                 timelineData.photo.length > 0 && (
-                  <div className="w-full h-[1300px] relative overflow-hidden">
+                  <div className="w-full h-[400px] md:h-[800px] lg:w-[800px] xl:w-[1000px] lg:h-[1300px] relative overflow-hidden">
                     <Image
                       fill
                       src={timelineData?.photo[0].url}
@@ -50,18 +50,11 @@ const BlogPost: FunctionComponent<TimelinePageProps> = ({ timelineData }) => {
                   <li className="border-l border-l-gray-400 pl-4 ml-4">
                     Publicado por : {timelineData?.authorName}
                   </li>
-                  {/* <li className="border-l border-l-gray-400 pl-4 ml-4">
-                    <i className="fa fa-heart"></i>5 Hits
-                  </li>
-                  <li className="border-l border-l-gray-400 pl-4 ml-4">
-                    <i className="fa fa-comments"></i>
-                    10 Comment
-                  </li> */}
                 </ul>
               </div>
               <div className="text-[#777]">
                 <div
-                  className="prose min-w-full break-normal text-base"
+                  className="prose min-w-full break-normal text-md"
                   dangerouslySetInnerHTML={{
                     __html: timelineData?.mainText || "",
                   }}

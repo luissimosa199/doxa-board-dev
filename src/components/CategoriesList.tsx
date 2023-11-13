@@ -8,9 +8,6 @@ import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 type DataType = string | { value: string };
 
 const CategoriesList = () => {
-  const visibleItems = 20;
-  const [showAll, setShowAll] = useState(false);
-
   const { data, isLoading, error } = useQuery<string[] | Error>({
     queryFn: fetchCategories,
     queryKey: ["categories"],
@@ -55,10 +52,10 @@ const CategoriesList = () => {
           return (
             <li
               key={idx}
-              className={`transform transition-all duration-500 w-full border-b border-gray-300 py-2`}
+              className={`transform transition-all duration-500 w-full border-b border-gray-300 py-2 text-base`}
             >
               <Link
-                className="capitalize py-1 px-2 hover:underline hover:text-gray-600 "
+                className="py-1 px-2 hover:underline hover:text-gray-600 "
                 href={`/nota/search?tags=${displayValue}`}
               >
                 <FontAwesomeIcon
