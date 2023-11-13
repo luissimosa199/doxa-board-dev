@@ -14,6 +14,7 @@ import React, { FunctionComponent } from "react";
 import PrimaryForm from "@/components/PrimaryForm";
 import useSearchTimeline from "@/hooks/useSearchTimeline";
 import BlogsAsideMenu from "@/components/BlogsAsideMenu";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
 interface BlogListProps {
   timelineData: TimelineFormInputs[];
@@ -45,6 +46,17 @@ const Blog: FunctionComponent<BlogListProps> = ({ timelineData }) => {
       },
     }
   );
+
+  const loadMore = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const sentinelRef = useInfiniteScroll({
+    onIntersect: loadMore,
+    canFetch: hasNextPage ?? false,
+  });
 
   const renderPosts = (posts: TimelineFormInputs[]) => {
     return posts.map((e) => (
@@ -106,6 +118,12 @@ const Blog: FunctionComponent<BlogListProps> = ({ timelineData }) => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="relative">
+        <div
+          ref={sentinelRef}
+          className="absolute bottom-0 h-[600px]"
+        />
       </div>
     </section>
   );
