@@ -276,10 +276,10 @@ const PrimaryForm = () => {
       </div>
       <div
         className={`border-t-2 p-4 bg-stone-100 ${
-          moduleOpen() ? "min-h-48" : "h-1/3"
+          moduleOpen() ? "min-h-48" : "h-3/5"
         }`}
       >
-        <div className=" flex gap-4">
+        <div className="flex gap-4">
           <div>
             <button
               className="h-8"
