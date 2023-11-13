@@ -20,10 +20,10 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
   const { day, month } = getDayAndMonth(createdAt);
 
   return (
-    <div className="border mb-4 w-fit">
+    <div className="border h-full w-full md:w-fit">
       <div className="flex flex-col h-full">
         <div className="relative">
-          <div className="relative overflow-hidden w-[375px] lg:w-[475px] h-[315px]">
+          <div className="relative overflow-hidden w-full md:w-[375px] lg:w-[475px] h-[315px]">
             <Link href={`/blog/${urlSlug}`}>
               <Image
                 src={
@@ -44,7 +44,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
             </div>
           </div>
         </div>
-        <div className="p-5 w-[375px] lg:max-w-[475px]">
+        <div className="p-5 w-full md:w-[375px] lg:max-w-[475px]">
           <div className="min-h-[100px]">
             <h6 className="text-[#9a9a9a] font-semibold capitalize">
               <i className=""></i>

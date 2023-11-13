@@ -2,11 +2,15 @@ import { fetchCategories } from "@/utils/getCategories";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleRight, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import CategoriesModal from "./CategoriesModal";
+import { useState } from "react";
 
 type DataType = string | { value: string };
 
 const CategoriesList = () => {
+  const [showCategoriesModal, setShowCategoriesModal] = useState(false);
+
   const { data, isLoading, error } = useQuery<string[] | Error>({
     queryFn: fetchCategories,
     queryKey: ["categories"],
@@ -41,10 +45,14 @@ const CategoriesList = () => {
     );
   }
 
+  const openCategoriesModal = () => {
+    setShowCategoriesModal(true);
+  };
+
   return (
     <div className="p-4">
       <h2 className="text-2xl font-semibold mb-4">Categorías</h2>
-      <ul className="mb-4 flex flex-col justify-around gap-2 px-2 transition-all duration-500">
+      <ul className="mb-4 hidden flex-col justify-around gap-2 px-2 transition-all duration-500 md:flex">
         {(data as DataType[]).map((e, idx: number) => {
           const displayValue = typeof e === "string" ? e : e.value;
 
@@ -68,6 +76,17 @@ const CategoriesList = () => {
           );
         })}
       </ul>
+      <div className="flex justify-center items-center md:hidden">
+        <button onClick={openCategoriesModal}>
+          <FontAwesomeIcon icon={faChevronDown} />
+        </button>
+        {showCategoriesModal && (
+          <CategoriesModal
+            categories={data as string[]}
+            setShowCategoriesModal={setShowCategoriesModal}
+          />
+        )}
+      </div>
     </div>
   );
 };
