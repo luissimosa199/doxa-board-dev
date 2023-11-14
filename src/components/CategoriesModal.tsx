@@ -1,5 +1,6 @@
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
 const CategoriesModal = ({
@@ -18,7 +19,7 @@ const CategoriesModal = ({
           setShowCategoriesModal(false);
         }
       },
-      { threshold: 1.0 } // Adjust this value based on your needs
+      { threshold: 1.0 }
     );
 
     const sentinel = sentinelRef.current;
@@ -41,7 +42,7 @@ const CategoriesModal = ({
             e.preventDefault();
             setShowCategoriesModal(false);
           }}
-          className="border w-10 h-10 rounded-full bg-black text-white fixed top-2 right-2 flex justify-center items-center z-50"
+          className="border w-12 h-12 rounded-full bg-black text-white fixed top-0 right-0 flex justify-center items-center z-50"
         >
           <FontAwesomeIcon icon={faX} />
         </button>
@@ -51,7 +52,7 @@ const CategoriesModal = ({
               key={`${idx}${e}`}
               className="capitalize text-lg text-center py-4 border-b border-gray-300"
             >
-              {e}
+              <Link href={`/blog/search?tags=${e}`}>{e}</Link>
             </li>
           );
         })}

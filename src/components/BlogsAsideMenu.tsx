@@ -1,12 +1,12 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, {
+  ChangeEvent,
   ChangeEventHandler,
   Dispatch,
+  RefObject,
   SetStateAction,
   useEffect,
-  useRef,
-  useState,
 } from "react";
 import CategoriesList from "./CategoriesList";
 import { useRouter } from "next/router";
@@ -14,36 +14,35 @@ import { useRouter } from "next/router";
 const BlogsAsideMenu = ({
   handleSearchBar,
   setSearchValue,
+  barContentQuery,
+  handleRedirect,
+  inputRef,
 }: {
   handleSearchBar?: ChangeEventHandler<HTMLInputElement>;
   setSearchValue?: Dispatch<SetStateAction<string | null>>;
+  barContentQuery?: string | null;
+  handleRedirect?: (event: ChangeEvent<HTMLInputElement>) => void;
+  inputRef?: RefObject<HTMLInputElement> | null;
 }) => {
-  const [barContentQuery, setBarContentQuery] = useState<string | null>(null);
   const router = useRouter();
-  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleRedirect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (router.pathname !== "/blog") {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (router.asPath !== "/blog") {
       router.push(`/blog?barcontent=${encodeURIComponent(event.target.value)}`);
     } else if (handleSearchBar) {
       handleSearchBar(event);
     }
   };
 
-  const { barcontent } = router.query;
-
   useEffect(() => {
-    if (barcontent) {
-      setBarContentQuery(barcontent as string);
-      router.replace("/blog", undefined, { shallow: true });
-      if (inputRef.current) {
-        inputRef.current.focus();
-        if (setSearchValue) {
-          setSearchValue(barcontent as string);
-        }
-      }
+    if (inputRef?.current && barContentQuery !== undefined) {
+      inputRef.current.value = barContentQuery as string;
     }
-  }, [barcontent, router, setSearchValue]);
+  }, [barContentQuery, inputRef]);
+
+  // when the user searchs in some other route that is not '/blog' the page redirects with a query param,
+  // that query param is picked up by the custom hook a everything works fine, but the inputRef.current.value
+  // is mantaining a previous search value, it should be having the new value instead.
 
   return (
     <div>
@@ -63,7 +62,7 @@ const BlogsAsideMenu = ({
             className="bg-gray-100 pl-16 pr-4 py-5 rounded-sm w-full placeholder:text-gray-400 placeholder:text-lg "
             defaultValue={barContentQuery || ""}
             type="text"
-            onChange={handleSearchBar || handleRedirect}
+            onChange={handleChange}
           />
         </div>
       </div>
@@ -71,9 +70,6 @@ const BlogsAsideMenu = ({
       <div className="">
         <CategoriesList />
       </div>
-
-      {/* <div className="border w-full h-96"></div>
-      <div className="border w-full h-48"></div> */}
     </div>
   );
 };

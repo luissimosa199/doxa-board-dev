@@ -5,36 +5,63 @@ import { TimelineFormInputs } from "@/types";
 import formatDateString from "@/utils/formatDateString";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Image from "next/image";
-import React, { FunctionComponent } from "react";
+import React, {
+  ChangeEventHandler,
+  Dispatch,
+  FunctionComponent,
+  SetStateAction,
+} from "react";
 
 interface TimelinePageProps {
   timelineData: TimelineFormInputs | null;
 }
 
-const BlogPost: FunctionComponent<TimelinePageProps> = ({ timelineData }) => {
+const BlogPost: FunctionComponent<
+  TimelinePageProps & {
+    handleSearchBar: ChangeEventHandler<HTMLInputElement>;
+    setSearchValue: Dispatch<SetStateAction<string | null>>;
+  
+  }
+> = ({
+  timelineData,
+  handleSearchBar,
+  setSearchValue,
+
+}) => {
   return (
     <section className="p-4 w-auto">
       <div className="lg:min-w-[1024px] max-w-[1700px] grid grid-cols-1 md:grid-rows-7 mx-auto">
-        <div className="md:col-span-1 min-w-[200px] pr-4">
-          <BlogsAsideMenu />
+        <div className="md:col-span-1 min-w-[200px] pr-4 md:block hidden">
+          <BlogsAsideMenu
+            handleSearchBar={handleSearchBar}
+            setSearchValue={setSearchValue}
+          />
         </div>
         <div className="md:col-start-2 col-span-4 min-h-screen">
           {/* content */}
           <div className="">
             <div className="">
               {/* imagen */}
-              {timelineData &&
-                timelineData.photo &&
-                timelineData.photo.length > 0 && (
-                  <div className="w-full h-[400px] md:min-h-[600px] lg:min-w-[800px] xl:min-w-[1050px] lg:h-[1000px] relative overflow-hidden">
+              <div
+                className={`w-full ${
+                  timelineData &&
+                  timelineData.photo &&
+                  timelineData?.photo?.length > 0
+                    ? "h-[400px]  md:min-h-[600px] lg:h-[1000px]"
+                    : "h-0"
+                } lg:min-w-[900px] xl:min-w-[1150px] relative overflow-hidden`}
+              >
+                {timelineData &&
+                  timelineData.photo &&
+                  timelineData.photo.length > 0 && (
                     <Image
                       fill
                       src={timelineData?.photo[0].url}
                       alt=""
                       className="absolute object-cover"
                     />
-                  </div>
-                )}
+                  )}
+              </div>
               {/* imagen */}
 
               <div className="">

@@ -9,8 +9,14 @@ import {
   useInfiniteQuery,
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
-import React, { FunctionComponent } from "react";
-import useSearchTimeline from "@/hooks/useSearchTimeline";
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  Dispatch,
+  FunctionComponent,
+  RefObject,
+  SetStateAction,
+} from "react";
 import BlogsAsideMenu from "@/components/BlogsAsideMenu";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
@@ -18,10 +24,26 @@ interface BlogListProps {
   timelineData: TimelineFormInputs[];
 }
 
-const Blog: FunctionComponent<BlogListProps> = ({ timelineData }) => {
-  const { searchValue, searchResult, handleSearchBar, setSearchValue } =
-    useSearchTimeline();
-
+const Blog: FunctionComponent<
+  BlogListProps & {
+    searchResult: TimelineFormInputs[];
+    searchValue: string;
+    handleSearchBar: ChangeEventHandler<HTMLInputElement>;
+    setSearchValue: Dispatch<SetStateAction<string | null>>;
+    barContentQuery: string | null;
+    inputRef: RefObject<HTMLInputElement> | null;
+    handleRedirect: (event: ChangeEvent<HTMLInputElement>) => void;
+  }
+> = ({
+  timelineData,
+  searchValue,
+  searchResult,
+  handleSearchBar,
+  setSearchValue,
+  barContentQuery,
+  inputRef,
+  handleRedirect,
+}) => {
   const {
     data,
     isLoading,
@@ -99,10 +121,13 @@ const Blog: FunctionComponent<BlogListProps> = ({ timelineData }) => {
       <div className="my-4 flex w-full px-2 justify-center"></div>
       <div className="min-h-screen flex justify-center w-full md:w-auto mx-auto">
         <div className="h-full md:p-4 flex flex-col justify-center md:flex-row w-full ">
-          <div className="h-fit p-2">
+          <div className="h-fit p-2 hidden md:block">
             <BlogsAsideMenu
               handleSearchBar={handleSearchBar}
               setSearchValue={setSearchValue}
+              barContentQuery={barContentQuery}
+              inputRef={inputRef}
+              handleRedirect={handleRedirect}
             />
           </div>
 
