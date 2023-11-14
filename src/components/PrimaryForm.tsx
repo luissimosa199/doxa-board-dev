@@ -84,13 +84,16 @@ const PrimaryForm = () => {
     },
     {
       onSuccess: async (data) => {
-        const currentData = queryClient.getQueryData<{
-          pages: TimelineFormInputs[][];
-          pageParams: any[];
-        }>(["timelines"]) || { pages: [], pageParams: [] };
+        // Retrieve the current data for the user's timelines
+        const currentData =
+          queryClient.getQueryData<TimelineFormInputs[]>([
+            session?.user?.email,
+            "userTimelines",
+          ]) || [];
 
         const response = await data.json();
 
+        // Prepare the new payload, incorporating photo data
         const newPayload = {
           ...response,
           photo: previews.map((image, photoIdx: number) => {
@@ -105,17 +108,14 @@ const PrimaryForm = () => {
           }),
         };
 
-        queryClient.setQueryData<{
-          pages: TimelineFormInputs[][];
-          pageParams: any[];
-        }>(["timelines"], {
-          ...currentData,
-          pages: [
-            [newPayload, ...currentData.pages[0].slice(1)],
-            ...currentData.pages.slice(1),
-          ],
-          pageParams: currentData.pageParams,
-        });
+        // Update the query data with the new payload
+        queryClient.setQueryData<TimelineFormInputs[]>(
+          [session?.user?.email, "userTimelines"],
+          [
+            newPayload, // Add the new payload at the beginning of the array
+            ...currentData, // Append the existing data
+          ]
+        );
 
         setPreviews([]);
       },
@@ -235,7 +235,6 @@ const PrimaryForm = () => {
     );
 
     try {
-      console.log("@l238>PromaryForm.tsx", processedData.mainText);
       await mutation.mutateAsync({ data: processedData, urls: images });
     } catch (err) {
       if (previousData) {
