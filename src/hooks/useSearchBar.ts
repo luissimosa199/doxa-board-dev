@@ -17,9 +17,8 @@ const useSearchBar = (
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleRedirect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (router.asPath !== "/blog") {
-      console.log(router.asPath);
-      router.push(`/blog?barcontent=${encodeURIComponent(event.target.value)}`);
+    if (router.asPath !== "/") {
+      router.push(`/?barcontent=${encodeURIComponent(event.target.value)}`);
     } else if (handleSearchBar) {
       handleSearchBar(event);
     }
@@ -30,7 +29,7 @@ const useSearchBar = (
   useEffect(() => {
     if (barcontent) {
       setBarContentQuery(barcontent as string);
-      router.replace("/blog", undefined, { shallow: true });
+      router.replace("/", undefined, { shallow: true });
       if (inputRef.current) {
         inputRef.current.focus();
         if (setSearchValue) {

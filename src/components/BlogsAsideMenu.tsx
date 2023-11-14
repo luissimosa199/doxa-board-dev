@@ -27,8 +27,8 @@ const BlogsAsideMenu = ({
   const router = useRouter();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (router.asPath !== "/blog") {
-      router.push(`/blog?barcontent=${encodeURIComponent(event.target.value)}`);
+    if (router.asPath !== "/") {
+      router.push(`/?barcontent=${encodeURIComponent(event.target.value)}`);
     } else if (handleSearchBar) {
       handleSearchBar(event);
     }
@@ -39,10 +39,6 @@ const BlogsAsideMenu = ({
       inputRef.current.value = barContentQuery as string;
     }
   }, [barContentQuery, inputRef]);
-
-  // when the user searchs in some other route that is not '/blog' the page redirects with a query param,
-  // that query param is picked up by the custom hook a everything works fine, but the inputRef.current.value
-  // is mantaining a previous search value, it should be having the new value instead.
 
   return (
     <div>
