@@ -1,3 +1,5 @@
+import he from "he";
+
 export function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>?/gm, "");
+  return he.decode(html.replace(/<[^>]*>?/gm, ""));
 }
