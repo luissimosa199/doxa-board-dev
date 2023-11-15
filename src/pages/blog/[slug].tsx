@@ -1,11 +1,11 @@
 import BlogPostLink from "@/components/BlogPostLink";
+import BlogPostPicture from "@/components/BlogPostPicture";
 import BlogsAsideMenu from "@/components/BlogsAsideMenu";
 import dbConnect from "@/db/dbConnect";
 import { TimeLineModel } from "@/db/models";
 import { TimelineFormInputs } from "@/types";
 import formatDateString from "@/utils/formatDateString";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import Image from "next/image";
 import React, {
   ChangeEventHandler,
   Dispatch,
@@ -36,28 +36,11 @@ const BlogPost: FunctionComponent<
           {/* content */}
           <div className="">
             <div className="">
-              {/* imagen */}
-              <div
-                className={`w-full ${
-                  timelineData &&
-                  timelineData.photo &&
-                  timelineData?.photo?.length > 0
-                    ? "h-[400px]  md:min-h-[600px] lg:h-[1000px]"
-                    : "h-0"
-                } lg:min-w-[900px] xl:min-w-[1150px] relative overflow-hidden`}
-              >
-                {timelineData &&
-                  timelineData.photo &&
-                  timelineData.photo.length > 0 && (
-                    <Image
-                      fill
-                      src={timelineData?.photo[0].url}
-                      alt=""
-                      className="absolute object-cover"
-                    />
-                  )}
-              </div>
-              {/* imagen */}
+              {timelineData &&
+                timelineData.photo &&
+                timelineData.photo.length > 0 && (
+                  <BlogPostPicture timelineData={timelineData} />
+                )}
 
               <div className="">
                 <ul className="mt-4 flex font-semibold text-sm text-[#777777]">

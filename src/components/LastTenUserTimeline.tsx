@@ -84,8 +84,9 @@ const LastTenUserTimeline: FunctionComponent<LastTenUserTimelineProps> = ({
                 <div className="flex gap-2">
                   {e.photo.map((media: any, mediaIdx: number) => {
                     const isVideo =
-                      media.url.includes("/dahu3rii0/video/upload/") &&
-                      media.url.endsWith(".mp4");
+                      (media.url.includes("/dahu3rii0/video/upload/") &&
+                        media.url.endsWith(".mp4")) ||
+                      media.url.startsWith("data:video/");
                     return (
                       <div
                         key={mediaIdx}

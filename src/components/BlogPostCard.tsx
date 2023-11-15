@@ -2,9 +2,12 @@ import { TimeLineProps } from "@/types";
 import { stripHtml } from "@/utils/stripHtml";
 import Image from "next/image";
 import Link from "next/link";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { getDayAndMonth } from "./getDayAndMonth";
 import BlogPostCardButtons from "./BlogPostCardButtons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShareNodes } from "@fortawesome/free-solid-svg-icons";
+import ShareButtons from "./ShareButtons";
 
 const BlogPostCard: FunctionComponent<TimeLineProps> = ({
   timeline,
@@ -18,6 +21,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
   links,
   urlSlug,
 }) => {
+  const [showShareModal, setShowShareModal] = useState<boolean>(false);
   const { day, month } = getDayAndMonth(createdAt);
 
   return (
@@ -28,7 +32,10 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
             <Link href={`/blog/${urlSlug || _id}`}>
               <Image
                 src={
-                  timeline && timeline.length > 0
+                  timeline &&
+                  timeline.length > 0 &&
+                  !timeline[0].url.includes("/dahu3rii0/video/upload/") &&
+                  !timeline[0].url.endsWith(".mp4")
                     ? (timeline[0].url as string)
                     : "/assets/1.jpg"
                 }
@@ -49,7 +56,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
             </div>
           </div>
         </div>
-        <div className="p-5 w-full md:w-[375px] lg:max-w-[475px]">
+        <div className="p-5 w-full md:w-[375px] lg:max-w-[475px] relative">
           <div className="min-h-[100px]">
             <h6 className="text-[#9a9a9a] font-semibold capitalize">
               <i className=""></i>
@@ -67,6 +74,32 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
                 mainText && mainText?.length > 100 ? "..." : ""
               } `}
             </p>
+          </div>
+          <div className="absolute w-8 h-8 right-2 top-2 flex justify-center">
+            <button
+              onClick={() => {
+                setShowShareModal(!showShareModal);
+              }}
+            >
+              <FontAwesomeIcon
+                className="w-6 h-6"
+                icon={faShareNodes}
+              />
+            </button>
+            {showShareModal && (
+              <div className="w-36 h-6 absolute top-0 right-16 z-40">
+                <ShareButtons
+                  url={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${
+                    urlSlug as string
+                  }`}
+                  title={
+                    mainText
+                      ? stripHtml(mainText).slice(0, 15)
+                      : "Visita nuestro blog!"
+                  }
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
