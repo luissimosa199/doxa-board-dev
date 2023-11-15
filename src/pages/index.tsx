@@ -118,7 +118,7 @@ const Blog: FunctionComponent<
 
   return (
     <section className="flex flex-col items-center w-full">
-      <div className="my-4 flex w-full px-2 justify-center"></div>
+      {/* <div className="my-4 flex w-full px-2 justify-center"></div> */}
       <div className="min-h-screen flex justify-center w-full md:w-auto mx-auto">
         <div className="h-full md:p-4 flex flex-col justify-center md:flex-row w-full ">
           <div className="h-fit p-2 hidden md:block">

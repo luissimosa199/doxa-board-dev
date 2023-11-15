@@ -6,9 +6,11 @@ import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
 const CategoriesModal = ({
   categories,
   setShowCategoriesModal,
+  setShowNavBar
 }: {
   categories: string[];
   setShowCategoriesModal: Dispatch<SetStateAction<boolean>>;
+  setShowNavBar: Dispatch<SetStateAction<boolean>>;
 }) => {
   const sentinelRef = useRef(null);
 
@@ -35,24 +37,23 @@ const CategoriesModal = ({
   }, [setShowCategoriesModal]);
 
   return (
-    <div className="w-screen h-screen bg-white absolute top-0 left-0 z-40 overflow-y-scroll">
+    <div className="w-full h-72 bg-white top-0 left-0 z-40 overflow-y-scroll">
       <ul className="relative">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            setShowCategoriesModal(false);
-          }}
-          className="border w-12 h-12 rounded-full bg-black text-white fixed top-0 right-0 flex justify-center items-center z-50"
-        >
-          <FontAwesomeIcon icon={faX} />
-        </button>
         {categories.map((e, idx) => {
           return (
             <li
               key={`${idx}${e}`}
-              className="capitalize text-lg text-center py-4 border-b border-gray-300"
+              className="capitalize text-lg text-center border-b border-gray-300"
             >
-              <Link href={`/blog/search?tags=${e}`}>{e}</Link>
+              <Link
+                onClick={() => {
+                  setShowCategoriesModal(false);
+                  setShowNavBar(false)
+                }}
+                href={`/blog/search?tags=${e}`}
+              >
+                {e}
+              </Link>
             </li>
           );
         })}

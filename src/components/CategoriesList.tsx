@@ -2,13 +2,21 @@ import { fetchCategories } from "@/utils/getCategories";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleRight,
+  faChevronDown,
+  faChevronUp,
+} from "@fortawesome/free-solid-svg-icons";
 import CategoriesModal from "./CategoriesModal";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 type DataType = string | { value: string };
 
-const CategoriesList = () => {
+const CategoriesList = ({
+  setShowNavBar,
+}: {
+  setShowNavBar: Dispatch<SetStateAction<boolean>>;
+}) => {
   const [showCategoriesModal, setShowCategoriesModal] = useState(false);
 
   const { data, isLoading, error } = useQuery<string[] | Error>({
@@ -45,8 +53,8 @@ const CategoriesList = () => {
     );
   }
 
-  const openCategoriesModal = () => {
-    setShowCategoriesModal(true);
+  const toggleCategoriesModal = () => {
+    setShowCategoriesModal(!showCategoriesModal);
   };
 
   return (
@@ -59,7 +67,7 @@ const CategoriesList = () => {
           return (
             <li
               key={idx}
-              className={`transform transition-all duration-500 w-full border-b border-gray-300 py-4 text-base`}
+              className={`transform transition-all duration-500 w-full border-b border-gray-300 mt-1 text-base`}
             >
               <Link
                 className=" px-2 hover:underline hover:text-gray-600 "
@@ -76,14 +84,19 @@ const CategoriesList = () => {
           );
         })}
       </ul>
-      <div className="flex justify-center items-center md:hidden">
-        <button onClick={openCategoriesModal}>
-          <FontAwesomeIcon icon={faChevronDown} />
+      <div className="flex flex-col gap-2 justify-center items-center md:hidden">
+        <button onClick={toggleCategoriesModal}>
+          {showCategoriesModal ? (
+            <FontAwesomeIcon icon={faChevronUp} />
+          ) : (
+            <FontAwesomeIcon icon={faChevronDown} />
+          )}
         </button>
         {showCategoriesModal && (
           <CategoriesModal
             categories={data as string[]}
             setShowCategoriesModal={setShowCategoriesModal}
+            setShowNavBar={setShowNavBar}
           />
         )}
       </div>

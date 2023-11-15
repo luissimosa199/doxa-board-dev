@@ -50,7 +50,7 @@ const Navbar = ({
           <FontAwesomeIcon icon={faBars} />
         </button>
         {showNavBar && (
-          <div className="mt-3 -ml-2 p-2 bg-white shadow rounded bg-base-100 w-screen z-40 absolute">
+          <div className="w-96 mt-3 -ml-2 p-2 bg-white shadow rounded bg-base-100 z-40 absolute">
             <div className="mb-4 font-semibold">
               <span>
                 <Link
@@ -67,6 +67,7 @@ const Navbar = ({
               barContentQuery={barContentQuery}
               handleRedirect={handleRedirect}
               inputRef={inputRef}
+              setShowNavBar={setShowNavBar}
             />
           </div>
         )}

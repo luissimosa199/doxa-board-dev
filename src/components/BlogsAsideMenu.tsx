@@ -17,12 +17,14 @@ const BlogsAsideMenu = ({
   barContentQuery,
   handleRedirect,
   inputRef,
+  setShowNavBar,
 }: {
   handleSearchBar?: ChangeEventHandler<HTMLInputElement>;
   setSearchValue?: Dispatch<SetStateAction<string | null>>;
   barContentQuery?: string | null;
   handleRedirect?: (event: ChangeEvent<HTMLInputElement>) => void;
   inputRef?: RefObject<HTMLInputElement> | null;
+  setShowNavBar: Dispatch<SetStateAction<boolean>>;
 }) => {
   const router = useRouter();
 
@@ -64,7 +66,7 @@ const BlogsAsideMenu = ({
       </div>
 
       <div className="">
-        <CategoriesList />
+        <CategoriesList setShowNavBar={setShowNavBar} />
       </div>
     </div>
   );
