@@ -25,7 +25,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
       <div className="flex flex-col h-full">
         <div className="relative">
           <div className="relative overflow-hidden w-full md:w-[375px] lg:w-[475px] h-[315px]">
-            <Link href={`/blog/${urlSlug}`}>
+            <Link href={`/blog/${urlSlug || _id}`}>
               <Image
                 src={
                   timeline && timeline.length > 0

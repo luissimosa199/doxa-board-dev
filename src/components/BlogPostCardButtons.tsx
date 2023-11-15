@@ -64,7 +64,7 @@ const BlogPostCardButtons = ({
     }
   };
 
-  if (_id !== "newitem" && session?.user?.email === authorId) {
+  if (_id !== "newitem" && session?.user?.email !== authorId) {
     return null;
   }
 

@@ -10,30 +10,6 @@ const CategoriesModal = ({
   setShowCategoriesModal: Dispatch<SetStateAction<boolean>>;
   setShowNavBar?: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const sentinelRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setShowCategoriesModal(false);
-        }
-      },
-      { threshold: 1.0 }
-    );
-
-    const sentinel = sentinelRef.current;
-    if (sentinel) {
-      observer.observe(sentinel);
-    }
-
-    return () => {
-      if (sentinel) {
-        observer.unobserve(sentinel);
-      }
-    };
-  }, [setShowCategoriesModal]);
-
   return (
     <div className="w-full h-72 bg-white top-0 left-0 z-40 overflow-y-scroll">
       <ul className="relative">
@@ -57,12 +33,6 @@ const CategoriesModal = ({
             </li>
           );
         })}
-        <li className="bg-transparent h-0">
-          <div
-            ref={sentinelRef}
-            className="mt-12"
-          />
-        </li>
       </ul>
     </div>
   );

@@ -55,6 +55,9 @@ const Navbar = ({
               <span>
                 <Link
                   href="/"
+                  onClick={() => {
+                    setShowNavBar(false);
+                  }}
                   className="text-center"
                 >
                   Homepage
