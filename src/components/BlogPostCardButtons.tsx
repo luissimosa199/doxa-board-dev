@@ -64,31 +64,31 @@ const BlogPostCardButtons = ({
     }
   };
 
+  if (_id !== "newitem" && session?.user?.email === authorId) {
+    return null;
+  }
+
   return (
-    <div className="w-fit flex bg-white shadow-md p-2 absolute bottom-2 right-2">
-      {_id !== "newitem" && session?.user?.email === authorId && (
-        <>
-          <Link
-            className="text-black w-6 h-6 transition ease-in-out duration-150"
-            href={`/nota/editar/${_id}`}
-          >
-            <FontAwesomeIcon
-              icon={faPenToSquare}
-              size="lg"
-            />
-          </Link>
-          <button
-            className="w-5 h-5"
-            onClick={handleDeleteTimeline}
-          >
-            <FontAwesomeIcon
-              icon={faTrashCan}
-              size="lg"
-              className="text-black transition ease-in-out duration-150"
-            />
-          </button>
-        </>
-      )}
+    <div className="flex bg-white shadow-md p-2 absolute bottom-2 right-2">
+      <Link
+        className="text-black w-6 h-6 transition ease-in-out duration-150"
+        href={`/nota/editar/${_id}`}
+      >
+        <FontAwesomeIcon
+          icon={faPenToSquare}
+          size="lg"
+        />
+      </Link>
+      <button
+        className="w-5 h-5"
+        onClick={handleDeleteTimeline}
+      >
+        <FontAwesomeIcon
+          icon={faTrashCan}
+          size="lg"
+          className="text-black transition ease-in-out duration-150"
+        />
+      </button>
     </div>
   );
 };
