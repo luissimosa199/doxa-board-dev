@@ -6,11 +6,11 @@ import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
 const CategoriesModal = ({
   categories,
   setShowCategoriesModal,
-  setShowNavBar
+  setShowNavBar,
 }: {
   categories: string[];
   setShowCategoriesModal: Dispatch<SetStateAction<boolean>>;
-  setShowNavBar: Dispatch<SetStateAction<boolean>>;
+  setShowNavBar?: Dispatch<SetStateAction<boolean>>;
 }) => {
   const sentinelRef = useRef(null);
 
@@ -48,7 +48,9 @@ const CategoriesModal = ({
               <Link
                 onClick={() => {
                   setShowCategoriesModal(false);
-                  setShowNavBar(false)
+                  if (setShowNavBar) {
+                    setShowNavBar(false);
+                  }
                 }}
                 href={`/blog/search?tags=${e}`}
               >

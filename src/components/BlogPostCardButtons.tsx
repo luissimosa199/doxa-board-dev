@@ -65,11 +65,11 @@ const BlogPostCardButtons = ({
   };
 
   return (
-    <div className="w-fit flex gap-2 absolute">
+    <div className="w-fit flex bg-white shadow-md p-2 absolute bottom-2 right-2">
       {_id !== "newitem" && session?.user?.email === authorId && (
         <>
           <Link
-            className="text-blue-500 w-6 h-6 hover:text-blue-700 transition ease-in-out duration-150"
+            className="text-black w-6 h-6 transition ease-in-out duration-150"
             href={`/nota/editar/${_id}`}
           >
             <FontAwesomeIcon
@@ -84,7 +84,7 @@ const BlogPostCardButtons = ({
             <FontAwesomeIcon
               icon={faTrashCan}
               size="lg"
-              className="text-red-500 hover:text-red-700 transition ease-in-out duration-150"
+              className="text-black transition ease-in-out duration-150"
             />
           </button>
         </>
