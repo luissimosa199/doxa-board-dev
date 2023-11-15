@@ -1,3 +1,4 @@
+import BlogPostLink from "@/components/BlogPostLink";
 import BlogsAsideMenu from "@/components/BlogsAsideMenu";
 import dbConnect from "@/db/dbConnect";
 import { TimeLineModel } from "@/db/models";
@@ -68,6 +69,7 @@ const BlogPost: FunctionComponent<
                   </li>
                 </ul>
               </div>
+
               <div className="text-[#777]">
                 <div
                   className="prose min-w-full break-normal text-md"
@@ -76,6 +78,13 @@ const BlogPost: FunctionComponent<
                   }}
                 ></div>
               </div>
+
+              {timelineData?.links && timelineData?.links.length > 0 && (
+                <BlogPostLink
+                  _id={timelineData._id}
+                  links={timelineData.links}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -101,8 +110,6 @@ export const getServerSideProps: GetServerSideProps<TimelinePageProps> = async (
     } else {
       timeline = await TimeLineModel.findById(slug).lean();
     }
-
-    console.log({ slug, timeline });
 
     if (!timeline) {
       return {
