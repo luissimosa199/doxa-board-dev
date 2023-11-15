@@ -271,7 +271,6 @@ const PrimaryForm = () => {
           setValue={setValue}
           editorRef={editorRef}
         />
-        {/* <textarea {...register("mainText")} placeholder="Escribe algo acá" className='w-full p-2 placeholder:text-2xl' /> */}
       </div>
       <div
         className={`border-t-2 p-4 bg-stone-100 ${

@@ -26,6 +26,7 @@ type PaginatedQueryData<T> = {
 const Edit = () => {
   const [tagsList, setTagsList] = useState<string[]>([]);
   const [linksList, setLinksList] = useState<InputItem[]>([]);
+  const [currentText, setCurrentText] = useState<string>();
   const [mainText, setMainText] = useState<string>("");
   const [photo, setPhoto] = useState<TimeLineEntryData[]>([]);
   const [newImages, setNewImages] = useState<string[]>([]);
@@ -155,7 +156,7 @@ const Edit = () => {
       event.preventDefault();
 
       const processedData = {
-        mainText: mainText,
+        mainText: currentText,
         photo: photo,
         length: photo.length,
         tags: tagsList,
@@ -179,14 +180,7 @@ const Edit = () => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mainText, photo, tagsList, author, uploadedImages]
-  );
-
-  const handleTextChange = useCallback(
-    (event: ChangeEvent<HTMLTextAreaElement>) => {
-      setMainText(event.target.value);
-    },
-    []
+    [mainText, currentText, photo, tagsList, author, uploadedImages]
   );
 
   const handleCaptionChange = useCallback(
@@ -254,16 +248,11 @@ const Edit = () => {
         >
           Texto
         </label>
-        {/* <textarea
-          value={mainText}
-          onChange={handleTextChange}
-          className="border rounded h-32 p-3 text-md resize-none"
-        /> */}
         <div className="w-full my-auto h-full">
           <Editor
             apiKey={process.env.NEXT_PUBLIC_TINY_MCE_API_KEY}
             onEditorChange={(content) => {
-              setMainText(content);
+              setCurrentText(content);
             }}
             textareaName="mainText"
             onInit={(evt, editor) => (editorRef.current = editor)}
