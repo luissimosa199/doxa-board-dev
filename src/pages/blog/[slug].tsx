@@ -20,14 +20,8 @@ const BlogPost: FunctionComponent<
   TimelinePageProps & {
     handleSearchBar: ChangeEventHandler<HTMLInputElement>;
     setSearchValue: Dispatch<SetStateAction<string | null>>;
-  
   }
-> = ({
-  timelineData,
-  handleSearchBar,
-  setSearchValue,
-
-}) => {
+> = ({ timelineData, handleSearchBar, setSearchValue }) => {
   return (
     <section className="p-4 w-auto">
       <div className="lg:min-w-[1024px] max-w-[1700px] grid grid-cols-1 md:grid-rows-7 mx-auto">
@@ -108,6 +102,8 @@ export const getServerSideProps: GetServerSideProps<TimelinePageProps> = async (
       timeline = await TimeLineModel.findById(slug).lean();
     }
 
+    console.log({ slug, timeline });
+
     if (!timeline) {
       return {
         notFound: true,
@@ -124,9 +120,11 @@ export const getServerSideProps: GetServerSideProps<TimelinePageProps> = async (
       tags: timeline.tags || [],
       authorId: timeline.authorId || "",
       authorName: timeline.authorName || "",
-      links: timeline.links.map((link) =>
-        typeof link === "string" ? { value: link } : link
-      ),
+      links: timeline.links
+        ? timeline.links.map((link) =>
+            typeof link === "string" ? { value: link } : link
+          )
+        : [],
     };
 
     return {

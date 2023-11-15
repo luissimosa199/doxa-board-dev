@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { FunctionComponent } from "react";
 import { getDayAndMonth } from "./getDayAndMonth";
+import BlogPostCardButtons from "./BlogPostCardButtons";
 
 const BlogPostCard: FunctionComponent<TimeLineProps> = ({
   timeline,
@@ -36,6 +37,10 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
                 fill
               />
             </Link>
+            <BlogPostCardButtons
+              _id={_id}
+              authorId={authorId}
+            />
           </div>
           <div className="absolute bottom-8 left-8 px-2 py-3 bg-white shadow-md">
             <div className="flex flex-col justify-center items-center">
@@ -50,7 +55,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
               <i className=""></i>
               {tags && tags.map((e) => `${e} `)}
             </h6>
-            <Link href={`/blog/${urlSlug}`}>
+            <Link href={`/blog/${urlSlug || _id}`}>
               <h5 className="text-[#333333] font-semibold text-lg">
                 {`${mainText && stripHtml(mainText).slice(0, 15)}${
                   mainText && mainText?.length > 15 ? "..." : ""

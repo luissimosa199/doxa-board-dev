@@ -24,7 +24,7 @@ const BlogsAsideMenu = ({
   barContentQuery?: string | null;
   handleRedirect?: (event: ChangeEvent<HTMLInputElement>) => void;
   inputRef?: RefObject<HTMLInputElement> | null;
-  setShowNavBar: Dispatch<SetStateAction<boolean>>;
+  setShowNavBar?: Dispatch<SetStateAction<boolean>>;
 }) => {
   const router = useRouter();
 

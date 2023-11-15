@@ -15,7 +15,7 @@ type DataType = string | { value: string };
 const CategoriesList = ({
   setShowNavBar,
 }: {
-  setShowNavBar: Dispatch<SetStateAction<boolean>>;
+  setShowNavBar?: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [showCategoriesModal, setShowCategoriesModal] = useState(false);
 
