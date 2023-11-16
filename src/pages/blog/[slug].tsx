@@ -36,13 +36,15 @@ const BlogPost: FunctionComponent<
           {/* content */}
           <div className="">
             <div className="">
-              {timelineData &&
-                timelineData.photo &&
-                timelineData.photo.length > 0 && (
-                  <BlogPostPicture timelineData={timelineData} />
-                )}
+              <div className="md:min-w-[900px] xl:min-w-[1150px]">
+                {timelineData &&
+                  timelineData.photo &&
+                  timelineData.photo.length > 0 && (
+                    <BlogPostPicture timelineData={timelineData} />
+                  )}
+              </div>
 
-              <div className="">
+              <div className="mb-2">
                 <ul className="mt-4 flex font-semibold text-sm text-[#777777]">
                   <li className="capitalize">
                     {formatDateString(timelineData?.createdAt as string)}{" "}
