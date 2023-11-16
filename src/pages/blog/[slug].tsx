@@ -1,3 +1,5 @@
+import Ad from "@/components/Ad";
+import BlogPostGallery from "@/components/BlogPostGallery";
 import BlogPostLink from "@/components/BlogPostLink";
 import BlogPostPicture from "@/components/BlogPostPicture";
 import BlogsAsideMenu from "@/components/BlogsAsideMenu";
@@ -5,7 +7,9 @@ import dbConnect from "@/db/dbConnect";
 import { TimeLineModel } from "@/db/models";
 import { TimelineFormInputs } from "@/types";
 import formatDateString from "@/utils/formatDateString";
+import { isVideo } from "@/utils/isVideo";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import Image from "next/image";
 import React, {
   ChangeEventHandler,
   Dispatch,
@@ -72,6 +76,10 @@ const BlogPost: FunctionComponent<
               )}
             </div>
           </div>
+          <div className="w-full bg-gray-200 h-32 overflow-hidden">
+            <Ad />
+          </div>
+          {timelineData && <BlogPostGallery timelineData={timelineData} />}
         </div>
       </div>
     </section>
