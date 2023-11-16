@@ -76,7 +76,7 @@ const BlogPost: FunctionComponent<
               )}
             </div>
           </div>
-          <div className="w-full h-32 overflow-hidden">
+          <div className="w-full h-32 mt-2 overflow-hidden">
             <Ad />
           </div>
           {timelineData && <BlogPostGallery timelineData={timelineData} />}
