@@ -64,7 +64,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
             </h6>
             <Link href={`/blog/${urlSlug || _id}`}>
               <h5 className="text-[#333333] font-semibold text-lg">
-                {`${mainText && stripHtml(mainText).slice(0, 15)}${
+                {`${mainText && stripHtml(mainText).slice(0, 45)}${
                   mainText && mainText?.length > 15 ? "..." : ""
                 }`}
               </h5>
