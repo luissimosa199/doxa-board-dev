@@ -40,7 +40,7 @@ const BlogPost: FunctionComponent<
           {/* content */}
           <div className="">
             <div className="">
-              <div className="md:min-w-[400px] lg:min-w-[800px] xl:min-w-[1000px]">
+              <div className="md:min-w-[400px] lg:min-w-[800px] xl:min-w-[1000px] min-[1350px]:min-w-[1100px]">
                 {timelineData &&
                   timelineData.photo &&
                   timelineData.photo.length > 0 && (
@@ -76,7 +76,7 @@ const BlogPost: FunctionComponent<
               )}
             </div>
           </div>
-          <div className="w-full bg-gray-200 h-32 overflow-hidden">
+          <div className="w-full h-32 overflow-hidden">
             <Ad />
           </div>
           {timelineData && <BlogPostGallery timelineData={timelineData} />}
