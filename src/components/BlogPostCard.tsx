@@ -56,7 +56,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
             </div>
           </div>
         </div>
-        <div className="p-5 w-full lg:max-w-[475px] relative">
+        <div className="p-5 w-full md:w-[375px] lg:w-[475px] relative">
           <div className="min-h-[100px]">
             <h6 className="text-[#9a9a9a] font-semibold capitalize">
               <i className=""></i>

@@ -19,6 +19,8 @@ import React, {
 } from "react";
 import BlogsAsideMenu from "@/components/BlogsAsideMenu";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import BlogPostCardAdContainer from "@/components/BlogPostCardAdContainer";
+import Ad from "@/components/Ad";
 
 interface BlogListProps {
   timelineData: TimelineFormInputs[];
@@ -79,24 +81,31 @@ const Blog: FunctionComponent<
   });
 
   const renderPosts = (posts: TimelineFormInputs[]) => {
-    return posts.map((e) => (
-      <div
-        key={e._id}
-        className="w-full md:w-fit h-full md:px-2 flex-1"
-      >
-        <BlogPostCard
-          _id={e._id}
-          tags={Array.isArray(e.tags) ? e.tags : [e.tags]}
-          mainText={e.mainText}
-          length={e.length}
-          timeline={e.photo}
-          createdAt={e.createdAt}
-          authorId={e.authorId}
-          authorName={e.authorName}
-          links={e.links}
-          urlSlug={e.urlSlug}
-        />
-      </div>
+    return posts.map((e, idx) => (
+      <>
+        <div
+          key={e._id}
+          className="w-full md:w-fit h-full md:px-2 flex-1"
+        >
+          <BlogPostCard
+            _id={e._id}
+            tags={Array.isArray(e.tags) ? e.tags : [e.tags]}
+            mainText={e.mainText}
+            length={e.length}
+            timeline={e.photo}
+            createdAt={e.createdAt}
+            authorId={e.authorId}
+            authorName={e.authorName}
+            links={e.links}
+            urlSlug={e.urlSlug}
+          />
+        </div>
+        {(idx + 1) % 5 === 0 && idx !== 0 && (
+          <BlogPostCardAdContainer>
+            <Ad />
+          </BlogPostCardAdContainer>
+        )}
+      </>
     ));
   };
 

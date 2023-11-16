@@ -36,7 +36,7 @@ const BlogPost: FunctionComponent<
           {/* content */}
           <div className="">
             <div className="">
-              <div className="md:min-w-[900px] xl:min-w-[1150px]">
+              <div className="md:min-w-[400px] lg:min-w-[800px] xl:min-w-[1000px]">
                 {timelineData &&
                   timelineData.photo &&
                   timelineData.photo.length > 0 && (
