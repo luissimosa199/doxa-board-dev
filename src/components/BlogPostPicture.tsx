@@ -15,9 +15,9 @@ const BlogPostPicture = ({
     <div
       className={`w-full ${
         timelineData && timelineData.photo && timelineData?.photo?.length > 0
-          ? "h-[400px]  md:min-h-[600px] lg:h-[1000px]"
+          ? "h-[400px]  md:max-h-[600px] lg:max-h-[1000px]"
           : "h-0"
-      } lg:min-w-[900px] xl:min-w-[1150px] relative overflow-hidden`}
+      } md:min-w-[550px] lg:min-w-[800px] xl:min-w-[1000px] relative overflow-hidden`}
     >
       {timelineData &&
       timelineData.photo &&
@@ -25,7 +25,7 @@ const BlogPostPicture = ({
       isVideo(timelineData.photo[0].url) ? (
         <video
           controls
-          className="object-cover"
+          className="object-contain"
         >
           <source
             src={timelineData.photo[0].url}
@@ -41,7 +41,7 @@ const BlogPostPicture = ({
             fill
             src={timelineData.photo[0].url}
             alt=""
-            className="absolute object-cover"
+            className="absolute object-contain"
           />
         )
       )}
