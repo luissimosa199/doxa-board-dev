@@ -27,14 +27,18 @@ const BlogPost: FunctionComponent<
 > = ({ timelineData, handleSearchBar, setSearchValue }) => {
   return (
     <section className="p-4 w-auto">
-      <div className="lg:min-w-[1024px] max-w-[1700px] grid grid-cols-1 md:grid-cols-6 mx-auto">
-        <div className="md:col-span-2 lg:col-span-1 md:min-w-[250px] lg:min-w-[200px] pr-4 md:block hidden">
+      {/* grid */}
+      <div className="grid gap-2 grid-cols-1 md:grid-cols-12 mx-auto">
+        {/* menu */}
+        <div className="md:col-span-4 lg:col-span-3 md:block hidden">
           <BlogsAsideMenu
             handleSearchBar={handleSearchBar}
             setSearchValue={setSearchValue}
           />
         </div>
-        <div className="md:col-start-3 lg:col-start-2 col-span-6 min-h-screen md:min-w-[400px] lg:min-w-[800px] xl:min-w-[1000px] min-[1350px]:min-w-[1100px]">
+        {/* menu */}
+
+        <div className="md:col-start-5 lg:col-start-4 md:col-span-8 lg:col-span-9 ">
           {/* content */}
           <div className="">
             <div className="">

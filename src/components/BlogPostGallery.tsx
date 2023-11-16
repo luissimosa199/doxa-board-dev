@@ -9,7 +9,7 @@ const BlogPostGallery = ({
   timelineData: TimelineFormInputs;
 }) => {
   return (
-    <div className="md:min-w-[400px] lg:min-w-[800px] xl:min-w-[1000px] my-2">
+    <div className="my-2">
       {timelineData &&
         timelineData.photo &&
         timelineData.photo.length > 1 &&
@@ -22,13 +22,7 @@ const BlogPostGallery = ({
             <>
               <div
                 key={idx}
-                className={`w-full ${
-                  timelineData &&
-                  timelineData.photo &&
-                  timelineData?.photo?.length > 0
-                    ? "min-h-[400px] md:min-h-[600px] lg:min-h-[1000px]"
-                    : "h-0"
-                } md:min-w-[550px] lg:min-w-[800px] xl:min-w-[1000px] relative overflow-hidden my-2`}
+                className={`w-full h-full my-2`}
               >
                 {timelineData &&
                 timelineData.photo &&
@@ -36,7 +30,7 @@ const BlogPostGallery = ({
                 isVideo(e.url) ? (
                   <video
                     controls
-                    className="object-contain"
+                    className="w-full h-auto"
                   >
                     <source
                       src={e.url}
@@ -49,10 +43,12 @@ const BlogPostGallery = ({
                   timelineData.photo &&
                   timelineData?.photo?.length > 0 && (
                     <Image
-                      fill
+                      width={500}
+                      height={500}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 60vw"
                       src={e.url}
                       alt=""
-                      className="absolute object-contain"
+                      className="w-full h-auto"
                     />
                   )
                 )}

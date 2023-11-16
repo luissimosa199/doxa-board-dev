@@ -10,20 +10,14 @@ const BlogPostPicture = ({
 }) => {
   return (
     <>
-      <div
-        className={`w-full ${
-          timelineData && timelineData.photo && timelineData?.photo?.length > 0
-            ? "min-h-[400px]"
-            : "h-0"
-        } md:min-w-[550px] lg:min-w-[800px] xl:min-w-[1000px] relative overflow-hidden`}
-      >
+      <div className={`w-full h-full`}>
         {timelineData &&
         timelineData.photo &&
         timelineData?.photo?.length > 0 &&
         isVideo(timelineData.photo[0].url) ? (
           <video
             controls
-            className="object-contain"
+            className="w-full h-auto"
           >
             <source
               src={timelineData.photo[0].url}
@@ -36,10 +30,12 @@ const BlogPostPicture = ({
           timelineData.photo &&
           timelineData?.photo?.length > 0 && (
             <Image
-              fill
+              width={400}
+              height={400}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 60vw"
               src={timelineData.photo[0].url}
               alt=""
-              className="absolute object-contain"
+              className="w-full h-auto"
             />
           )
         )}
