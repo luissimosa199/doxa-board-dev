@@ -7,9 +7,7 @@ import dbConnect from "@/db/dbConnect";
 import { TimeLineModel } from "@/db/models";
 import { TimelineFormInputs } from "@/types";
 import formatDateString from "@/utils/formatDateString";
-import { isVideo } from "@/utils/isVideo";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import Image from "next/image";
 import React, {
   ChangeEventHandler,
   Dispatch,

@@ -13,7 +13,7 @@ const BlogPostPicture = ({
       <div
         className={`w-full ${
           timelineData && timelineData.photo && timelineData?.photo?.length > 0
-            ? "min-h-[400px] md:min-h-[600px] lg:min-h-[1000px]"
+            ? "min-h-[400px]"
             : "h-0"
         } md:min-w-[550px] lg:min-w-[800px] xl:min-w-[1000px] relative overflow-hidden`}
       >
