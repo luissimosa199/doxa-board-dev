@@ -3,6 +3,7 @@ import BlogPostGallery from "@/components/BlogPostGallery";
 import BlogPostLink from "@/components/BlogPostLink";
 import BlogPostPicture from "@/components/BlogPostPicture";
 import BlogsAsideMenu from "@/components/BlogsAsideMenu";
+import ShareButtons from "@/components/ShareButtons";
 import dbConnect from "@/db/dbConnect";
 import { TimeLineModel } from "@/db/models";
 import { TimelineFormInputs } from "@/types";
@@ -50,7 +51,7 @@ const BlogPost: FunctionComponent<
                   )}
               </div>
 
-              <div className="mb-2">
+              <div className="mb-2 flex flex-col lg:flex-row lg:gap-4">
                 <ul className="mt-4 flex font-semibold text-sm text-[#777777]">
                   <li className="capitalize">
                     {formatDateString(timelineData?.createdAt as string)}{" "}
@@ -59,6 +60,12 @@ const BlogPost: FunctionComponent<
                     Publicado por : {timelineData?.authorName}
                   </li>
                 </ul>
+                <div className="mt-4 w-fit">
+                  <ShareButtons
+                    url={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${timelineData?.urlSlug}`}
+                    title={timelineData?.mainText?.slice(0, 20) as string}
+                  />
+                </div>
               </div>
 
               <div className="text-[#777]">

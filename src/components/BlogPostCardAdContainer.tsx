@@ -8,7 +8,7 @@ const BlogPostCardAdContainer: FunctionComponent<PropsWithChildren> = ({
       <div className="h-full w-full md:w-fit overflow-hidden">
         <div className="flex flex-col h-full">
           <div className="relative h-full">
-            <div className="relative overflow-hidden w-full md:w-[375px] lg:w-[460px] ">
+            <div className="relative overflow-hidden w-full h-full md:w-[375px] lg:w-[460px] ">
               {children}
             </div>
           </div>
