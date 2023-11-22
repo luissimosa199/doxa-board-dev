@@ -27,16 +27,14 @@ const ShareButtons: FunctionComponent<ShareButtonsProps> = ({ url, title }) => {
   const shareLinks = [
     {
       platform: "WhatsApp",
-      url: `https://wa.me/?text=${
-        encodedUrl + "?utm_source=w"
-      }%20${encodedTitle}`,
+      url: `https://wa.me/?text=${encodedUrl + "?u=w"}%20${encodedTitle}`,
       icon: faWhatsapp,
       color: "#25D366",
     },
     {
       platform: "Facebook",
       url: `https://www.facebook.com/sharer/sharer.php?u=${
-        encodedUrl + "?utm_source=f"
+        encodedUrl + "?u=f"
       }`,
       icon: faFacebook,
       color: "#3b5998",
@@ -44,7 +42,7 @@ const ShareButtons: FunctionComponent<ShareButtonsProps> = ({ url, title }) => {
     {
       platform: "Twitter",
       url: `https://twitter.com/share?url=${
-        encodedUrl + "?utm_source=tw"
+        encodedUrl + "?u=tw"
       }&text=${encodedTitle}`,
       icon: faTwitter,
       color: "#1DA1F2",
@@ -52,7 +50,7 @@ const ShareButtons: FunctionComponent<ShareButtonsProps> = ({ url, title }) => {
     {
       platform: "LinkedIn",
       url: `https://www.linkedin.com/sharing/share-offsite/?url=${
-        encodedUrl + "?utm_source=l"
+        encodedUrl + "?u=l"
       }`,
       icon: faLinkedin,
       color: "#0077b5",
@@ -60,7 +58,7 @@ const ShareButtons: FunctionComponent<ShareButtonsProps> = ({ url, title }) => {
     {
       platform: "Pinterest",
       url: `https://pinterest.com/pin/create/button/?url=${
-        encodedUrl + "?utm_source=p"
+        encodedUrl + "?u=p"
       }&media=&description=${encodedTitle}`,
       icon: faPinterest,
       color: "#BD081C",
@@ -68,7 +66,7 @@ const ShareButtons: FunctionComponent<ShareButtonsProps> = ({ url, title }) => {
     {
       platform: "Reddit",
       url: `https://reddit.com/submit?url=${
-        encodedUrl + "?utm_source=r"
+        encodedUrl + "?u=r"
       }&title=${encodedTitle}`,
       icon: faReddit,
       color: "#FF5700",
@@ -76,16 +74,14 @@ const ShareButtons: FunctionComponent<ShareButtonsProps> = ({ url, title }) => {
     {
       platform: "Telegram",
       url: `https://telegram.me/share/url?url=${
-        encodedUrl + "?utm_source=t"
+        encodedUrl + "?u=t"
       }&text=${encodedTitle}`,
       icon: faTelegram,
       color: "#0088cc",
     },
     {
       platform: "Email",
-      url: `mailto:?subject=${encodedTitle}&body=${
-        encodedUrl + "?utm_source=e"
-      }`,
+      url: `mailto:?subject=${encodedTitle}&body=${encodedUrl + "?u=e"}`,
       icon: faTelegram,
       color: "#D44638",
     },
@@ -117,7 +113,7 @@ const ShareButtons: FunctionComponent<ShareButtonsProps> = ({ url, title }) => {
           type="button"
           className="w-5"
           onClick={() => {
-            navigator.clipboard.writeText(url + "?utm_source=cp");
+            navigator.clipboard.writeText(url + "?u=cp");
             setCopySuccess(true);
             setTimeout(() => {
               setCopySuccess(false);
