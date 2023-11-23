@@ -17,23 +17,24 @@ const HeadMetaTags: FunctionComponent<HeadMetaTagsProps> = ({
   message,
   siteName,
 }) => {
-  const url = timeline ? timeline[0].url : "";
-  const croppedUrl = cropImageLink(url, "c_fill,h_200,w_300,f_png/");
+  const url = timeline?.[0]?.url
+    ? cropImageLink(timeline[0].url, "c_fill,h_200,w_300,f_png/")
+    : "";
 
   return (
     <>
-      {timeline && timeline?.length > 0 && (
-        <meta
-          property="og:image"
-          itemProp="image"
-          content={croppedUrl}
-        />
-      )}
-      {timeline && timeline?.length > 0 && (
-        <meta
-          name="twitter:image"
-          content={croppedUrl}
-        />
+      {url && (
+        <>
+          <meta
+            property="og:image"
+            itemProp="image"
+            content={url}
+          />
+          <meta
+            name="twitter:image"
+            content={url}
+          />
+        </>
       )}
 
       <title>{timelineName}</title>
