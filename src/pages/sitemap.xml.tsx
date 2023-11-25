@@ -5,7 +5,6 @@ import { GetServerSideProps } from "next/types";
 function generateSiteMap(urls: string[], tags: string[]): string {
   return `<?xml version="1.0" encoding="UTF-8"?>
      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-       <!--We manually set the two URLs we know already-->
        <url>
          <loc>${process.env.NEXT_PUBLIC_BASE_URL}</loc>
        </url>
@@ -15,7 +14,7 @@ function generateSiteMap(urls: string[], tags: string[]): string {
            return `<url>
                 <loc>${
                   process.env.NEXT_PUBLIC_BASE_URL
-                }/nota/search?tags=${encodeURIComponent(tag)}</loc>
+                }/blog/search?tags=${encodeURIComponent(tag)}</loc>
             </url>`;
          })
          .join("")}
@@ -24,7 +23,7 @@ function generateSiteMap(urls: string[], tags: string[]): string {
          .map((e: string) => {
            return `
          <url>
-             <loc>${`${process.env.NEXT_PUBLIC_BASE_URL}/nota/${e}`}</loc>
+             <loc>${`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${e}`}</loc>
          </url>`;
          })
          .join("")}
