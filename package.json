@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node messageServer.js",
     "build": "next build",
-    "start": "NODE_ENV=production node messageServer.js",
+    "start": "next start",
     "lint": "next lint",
     "test": "jest && npm run build"
   },
