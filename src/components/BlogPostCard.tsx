@@ -94,7 +94,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
                   }`}
                   title={
                     mainText
-                      ? stripHtml(mainText).slice(0, 15)
+                      ? stripHtml(mainText).slice(0, 45)
                       : "Visita nuestro blog!"
                   }
                 />
