@@ -9,6 +9,7 @@ import dbConnect from "@/db/dbConnect";
 import { TimeLineModel } from "@/db/models";
 import { TimelineFormInputs } from "@/types";
 import formatDateString from "@/utils/formatDateString";
+import { stripHtml } from "@/utils/stripHtml";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import React, {
@@ -33,7 +34,9 @@ const BlogPost: FunctionComponent<
       <Head>
         <HeadMetaTags
           timeline={timelineData?.photo}
-          timelineName={timelineData?.mainText?.slice(0, 35) as string}
+          timelineName={stripHtml(
+            timelineData?.mainText?.slice(0, 35) as string
+          )}
           timeLineUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${timelineData?.urlSlug}`}
           siteName={"notas.doxadoctor"}
         />
