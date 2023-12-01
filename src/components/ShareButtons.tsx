@@ -22,7 +22,7 @@ const ShareButtons: FunctionComponent<ShareButtonsProps> = ({ url, title }) => {
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
 
   const encodedUrl = encodeURIComponent(url);
-  const encodedTitle = encodeURIComponent(stripHtml(title));
+  const encodedTitle = encodeURIComponent(stripHtml(title).split("\n")[0]);
 
   const shareLinks = [
     {

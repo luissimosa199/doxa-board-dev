@@ -77,14 +77,14 @@ const BlogPost: FunctionComponent<
                   <div className="mt-4 w-fit">
                     <ShareButtons
                       url={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${timelineData?.urlSlug}`}
-                      title={timelineData?.mainText?.slice(0, 35) as string}
+                      title={timelineData?.mainText as string}
                     />
                   </div>
                 </div>
 
                 <div className="text-[#777]">
                   <div
-                    className="prose min-w-full break-normal text-md"
+                    className="prose min-w-full break-normal text-md content"
                     dangerouslySetInnerHTML={{
                       __html: timelineData?.mainText || "",
                     }}
