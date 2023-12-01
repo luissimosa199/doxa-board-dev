@@ -34,9 +34,7 @@ const BlogPost: FunctionComponent<
       <Head>
         <HeadMetaTags
           timeline={timelineData?.photo}
-          timelineName={stripHtml(
-            timelineData?.mainText?.slice(0, 35) as string
-          )}
+          timelineName={stripHtml(timelineData?.mainText as string)}
           timeLineUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${timelineData?.urlSlug}`}
           siteName={"notas.doxadoctor"}
           message={stripHtml(timelineData?.mainText as string)}
