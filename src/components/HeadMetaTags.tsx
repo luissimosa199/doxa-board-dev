@@ -23,19 +23,24 @@ const HeadMetaTags: FunctionComponent<HeadMetaTagsProps> = ({
 
   return (
     <>
-      {url && (
-        <>
-          <meta
-            property="og:image"
-            itemProp="image"
-            content={url}
-          />
-          <meta
-            name="twitter:image"
-            content={url}
-          />
-        </>
-      )}
+      <meta
+        property="og:image"
+        itemProp="image"
+        content={url || ""}
+      />
+      <meta
+        name="twitter:image"
+        content={url || ""}
+      />
+
+      <meta
+        property="og:image:width"
+        content="1200"
+      />
+      <meta
+        property="og:image:height"
+        content="630"
+      />
 
       <title>{timelineName}</title>
 
