@@ -22,6 +22,9 @@ const HeadMetaTags: FunctionComponent<HeadMetaTagsProps> = ({
     ? cropImageLink(timeline[0].url, "c_fill,h_630,w_1200,f_png/")
     : "";
 
+  const title = message?.split("\n")[0];
+  const description = message?.split("\n")[1];
+
   return (
     <>
       <meta
@@ -43,18 +46,18 @@ const HeadMetaTags: FunctionComponent<HeadMetaTagsProps> = ({
         content="630"
       />
 
-      <title>{stripHtml(timelineName)}</title>
+      <title>{title}</title>
       <meta
         property="og:title"
-        content={stripHtml(timelineName)}
+        content={title}
       />
       <meta
         name="description"
-        content={stripHtml(timelineName)}
+        content={description}
       />
       <meta
         property="og:description"
-        content={stripHtml(timelineName)}
+        content={description}
       />
 
       <meta
@@ -63,19 +66,19 @@ const HeadMetaTags: FunctionComponent<HeadMetaTagsProps> = ({
       />
       <meta
         property="og:title"
-        content={`${timelineName}`}
+        content={title}
       />
       <meta
         name="twitter:title"
-        content={`${timelineName}`}
+        content={title}
       />
       <meta
         property="og:description"
-        content={`${stripHtml(message as string)}`}
+        content={description}
       />
       <meta
         name="twitter:description"
-        content={`${stripHtml(message as string)}`}
+        content={description}
       />
       <meta
         property="og:type"
