@@ -44,6 +44,10 @@ const HeadMetaTags: FunctionComponent<HeadMetaTagsProps> = ({
       />
 
       <title>{stripHtml(timelineName)}</title>
+      <meta
+        property="og:description"
+        content={stripHtml(timelineName)}
+      ></meta>
 
       <meta
         property="og:url"
