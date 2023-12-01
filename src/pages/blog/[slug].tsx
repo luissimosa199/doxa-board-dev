@@ -10,6 +10,7 @@ import { TimeLineModel } from "@/db/models";
 import { TimelineFormInputs } from "@/types";
 import formatDateString from "@/utils/formatDateString";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import Head from "next/head";
 import React, {
   ChangeEventHandler,
   Dispatch,
@@ -29,12 +30,14 @@ const BlogPost: FunctionComponent<
 > = ({ timelineData, handleSearchBar, setSearchValue }) => {
   return (
     <>
-      <HeadMetaTags
-        timeline={timelineData?.photo}
-        timelineName={timelineData?.mainText?.slice(0, 35) as string}
-        timeLineUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${timelineData?.urlSlug}`}
-        siteName={"notas.doxadoctor"}
-      />
+      <Head>
+        <HeadMetaTags
+          timeline={timelineData?.photo}
+          timelineName={timelineData?.mainText?.slice(0, 35) as string}
+          timeLineUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${timelineData?.urlSlug}`}
+          siteName={"notas.doxadoctor"}
+        />
+      </Head>
       <section className="p-4 w-auto">
         {/* grid */}
         <div className="grid gap-2 grid-cols-1 md:grid-cols-12 mx-auto">
