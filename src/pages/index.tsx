@@ -82,11 +82,8 @@ const Blog: FunctionComponent<
 
   const renderPosts = (posts: TimelineFormInputs[]) => {
     return posts.map((e, idx) => (
-      <>
-        <div
-          key={e._id}
-          className="w-full md:w-fit h-full md:px-2 flex-1"
-        >
+      <div key={e._id}>
+        <div className="w-full md:w-fit h-full md:px-2 flex-1">
           <BlogPostCard
             _id={e._id}
             tags={Array.isArray(e.tags) ? e.tags : [e.tags]}
@@ -105,7 +102,7 @@ const Blog: FunctionComponent<
             <Ad />
           </BlogPostCardAdContainer>
         )}
-      </>
+      </div>
     ));
   };
 

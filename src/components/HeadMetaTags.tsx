@@ -1,5 +1,6 @@
 import { TimeLineEntryData } from "@/types";
 import { cropImageLink } from "@/utils/cropImageLink";
+import { stripHtml } from "@/utils/stripHtml";
 import { FunctionComponent } from "react";
 
 interface HeadMetaTagsProps {
@@ -42,7 +43,7 @@ const HeadMetaTags: FunctionComponent<HeadMetaTagsProps> = ({
         content="630"
       />
 
-      <title>{timelineName}</title>
+      <title>{stripHtml(timelineName)}</title>
 
       <meta
         property="og:url"

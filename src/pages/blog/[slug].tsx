@@ -30,6 +30,7 @@ const BlogPost: FunctionComponent<
   return (
     <>
       <HeadMetaTags
+        timeline={timelineData?.photo}
         timelineName={timelineData?.mainText?.slice(0, 35) as string}
         timeLineUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${timelineData?.urlSlug}`}
         siteName={"notas.doxadoctor"}
