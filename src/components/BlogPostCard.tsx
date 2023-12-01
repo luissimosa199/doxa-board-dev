@@ -92,11 +92,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
                   url={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${
                     urlSlug as string
                   }`}
-                  title={
-                    mainText
-                      ? stripHtml(mainText).slice(0, 45)
-                      : "Visita nuestro blog!"
-                  }
+                  title={mainText ? mainText : "Visita nuestro blog!"}
                 />
               </div>
             )}
