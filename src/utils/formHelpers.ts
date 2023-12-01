@@ -302,6 +302,7 @@ export function generateSlug(
 
   // Construct the slug and limit length if necessary
   let slug = components.join("-");
+  slug = slug.replace(/^-+|-+$/g, "");
   if (slug.length > maxLength) {
     slug = slug.slice(0, maxLength);
   }
