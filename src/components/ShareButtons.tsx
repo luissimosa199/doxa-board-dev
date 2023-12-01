@@ -27,7 +27,7 @@ const ShareButtons: FunctionComponent<ShareButtonsProps> = ({ url, title }) => {
   const shareLinks = [
     {
       platform: "WhatsApp",
-      url: `https://wa.me/?text=${encodedUrl + "?u=w"}%20${encodedTitle}`,
+      url: `https://wa.me/?text=${encodedUrl + "?u=w"}`,
       icon: faWhatsapp,
       color: "#25D366",
     },
