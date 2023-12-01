@@ -19,7 +19,7 @@ const HeadMetaTags: FunctionComponent<HeadMetaTagsProps> = ({
   siteName,
 }) => {
   const url = timeline?.[0]?.url
-    ? cropImageLink(timeline[0].url, "c_fill,h_200,w_300,f_png/")
+    ? cropImageLink(timeline[0].url, "c_fill,h_630,w_1200,f_png/")
     : "";
 
   return (
