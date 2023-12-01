@@ -39,6 +39,7 @@ const BlogPost: FunctionComponent<
           )}
           timeLineUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${timelineData?.urlSlug}`}
           siteName={"notas.doxadoctor"}
+          message={stripHtml(timelineData?.mainText as string)}
         />
       </Head>
       <section className="p-4 w-auto">

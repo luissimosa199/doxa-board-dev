@@ -45,11 +45,17 @@ const HeadMetaTags: FunctionComponent<HeadMetaTagsProps> = ({
 
       <title>{stripHtml(timelineName)}</title>
       <meta
+        property="og:title"
+        content={stripHtml(timelineName)}
+      />
+      <meta
+        name="description"
+        content={stripHtml(timelineName)}
+      />
+      <meta
         property="og:description"
         content={stripHtml(timelineName)}
-      >
-        {stripHtml(timelineName)}
-      </meta>
+      />
 
       <meta
         property="og:url"
@@ -65,11 +71,11 @@ const HeadMetaTags: FunctionComponent<HeadMetaTagsProps> = ({
       />
       <meta
         property="og:description"
-        content={`${message}`}
+        content={`${stripHtml(message as string)}`}
       />
       <meta
         name="twitter:description"
-        content={`${message}`}
+        content={`${stripHtml(message as string)}`}
       />
       <meta
         property="og:type"
