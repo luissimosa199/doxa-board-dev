@@ -38,10 +38,6 @@ export default async function handler(
       res.status(200).json(response);
     }
   } else if (req.method === "POST") {
-    const userAgent = req.headers["user-agent"];
-
-    console.log("\n", userAgent, "\n");
-
     let mainText, photo, length, tags, authorId, authorName, links;
     let baseSlug;
 
@@ -55,7 +51,7 @@ export default async function handler(
       links = req.body.links || [];
 
       console.log("asistente: \n\n", {
-        origin: req.headers["origin"],
+        photo,
         body: req.body,
       });
 
