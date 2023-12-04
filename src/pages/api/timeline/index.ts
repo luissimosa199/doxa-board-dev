@@ -38,10 +38,39 @@ export default async function handler(
       res.status(200).json(response);
     }
   } else if (req.method === "POST") {
-    const { mainText, photo, length, tags, authorId, authorName, links } =
-      JSON.parse(req.body) as TimelineFormInputs;
+    const userAgent = req.headers["user-agent"];
 
-    let baseSlug = generateSlug(JSON.parse(req.body), 35, 50);
+    console.log("\n", userAgent, "\n");
+
+    let mainText, photo, length, tags, authorId, authorName, links;
+    let baseSlug;
+
+    if (typeof req.body === "object") {
+      mainText = req.body.mainText;
+      photo = req.body.photo;
+      length = req.body.length;
+      tags = req.body.tags;
+      authorId = req.body.authorId;
+      authorName = req.body.authorName;
+      links = req.body.links;
+
+      console.log("asistente: \n\n", { body: req.body });
+
+      baseSlug = generateSlug(req.body, 35, 50);
+    } else {
+      const body = JSON.parse(req.body) as TimelineFormInputs;
+
+      mainText = body.mainText;
+      photo = body.photo;
+      length = body.length;
+      tags = body.tags;
+      authorId = body.authorId;
+      authorName = body.authorName;
+      links = body.links;
+
+      baseSlug = generateSlug(JSON.parse(req.body), 35, 50);
+    }
+
     let slug = baseSlug;
 
     let counter = 1;
