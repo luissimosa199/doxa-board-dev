@@ -47,14 +47,17 @@ export default async function handler(
 
     if (typeof req.body === "object") {
       mainText = req.body.mainText;
-      photo = req.body.photo;
-      length = req.body.length;
+      photo = req.body.photo || [];
+      length = req.body.length || 0;
       tags = req.body.tags;
       authorId = req.body.authorId;
       authorName = req.body.authorName;
-      links = req.body.links;
+      links = req.body.links || [];
 
-      console.log("asistente: \n\n", { body: req.body });
+      console.log("asistente: \n\n", {
+        origin: req.headers["origin"],
+        body: req.body,
+      });
 
       baseSlug = generateSlug(req.body, 35, 50);
     } else {
