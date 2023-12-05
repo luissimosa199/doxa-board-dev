@@ -29,7 +29,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
       <div className="flex flex-col h-full">
         <div className="relative">
           <div className="relative overflow-hidden w-full md:w-[375px] lg:w-[475px] h-[315px]">
-            <Link href={`/blog/${urlSlug || _id}`}>
+            <Link href={`/${urlSlug || _id}`}>
               <Image
                 src={
                   timeline &&
@@ -62,7 +62,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
               <i className=""></i>
               {tags && tags.map((e) => `${e} `)}
             </h6>
-            <Link href={`/blog/${urlSlug || _id}`}>
+            <Link href={`/${urlSlug || _id}`}>
               <h5 className="text-[#333333] font-semibold text-lg">
                 {`${mainText && stripHtml(mainText).slice(0, 45)}${
                   mainText && mainText?.length > 15 ? "..." : ""
@@ -89,7 +89,7 @@ const BlogPostCard: FunctionComponent<TimeLineProps> = ({
             {showShareModal && (
               <div className="w-36 h-6 absolute top-0 right-16 z-40">
                 <ShareButtons
-                  url={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${
+                  url={`${process.env.NEXT_PUBLIC_BASE_URL}/${
                     urlSlug as string
                   }`}
                   title={mainText ? mainText : "Visita nuestro blog!"}

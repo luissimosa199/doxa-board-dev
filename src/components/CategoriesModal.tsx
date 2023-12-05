@@ -26,7 +26,7 @@ const CategoriesModal = ({
                     setShowNavBar(false);
                   }
                 }}
-                href={`/blog/search?tags=${e}`}
+                href={`/search?tags=${e}`}
               >
                 {e}
               </Link>

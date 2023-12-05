@@ -71,7 +71,7 @@ const CategoriesList = ({
             >
               <Link
                 className=" px-2 hover:underline hover:text-gray-600 "
-                href={`/blog/search?tags=${displayValue}`}
+                href={`/search?tags=${displayValue}`}
               >
                 <FontAwesomeIcon
                   icon={faAngleRight}

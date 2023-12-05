@@ -35,7 +35,7 @@ const BlogPost: FunctionComponent<
         <HeadMetaTags
           timeline={timelineData?.photo}
           timelineName={stripHtml(timelineData?.mainText as string)}
-          timeLineUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${timelineData?.urlSlug}`}
+          timeLineUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/${timelineData?.urlSlug}`}
           siteName={"notas.doxadoctor"}
           message={stripHtml(timelineData?.mainText as string)}
         />
@@ -75,7 +75,7 @@ const BlogPost: FunctionComponent<
                   </ul>
                   <div className="mt-4 w-fit">
                     <ShareButtons
-                      url={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${timelineData?.urlSlug}`}
+                      url={`${process.env.NEXT_PUBLIC_BASE_URL}/${timelineData?.urlSlug}`}
                       title={timelineData?.mainText as string}
                     />
                   </div>

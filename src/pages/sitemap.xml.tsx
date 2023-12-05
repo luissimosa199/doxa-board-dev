@@ -14,7 +14,7 @@ function generateSiteMap(urls: string[], tags: string[]): string {
            return `<url>
                 <loc>${
                   process.env.NEXT_PUBLIC_BASE_URL
-                }/blog/search?tags=${encodeURIComponent(tag)}</loc>
+                }/search?tags=${encodeURIComponent(tag)}</loc>
             </url>`;
          })
          .join("")}
@@ -23,7 +23,7 @@ function generateSiteMap(urls: string[], tags: string[]): string {
          .map((e: string) => {
            return `
          <url>
-             <loc>${`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${e}`}</loc>
+             <loc>${`${process.env.NEXT_PUBLIC_BASE_URL}/${e}`}</loc>
          </url>`;
          })
          .join("")}

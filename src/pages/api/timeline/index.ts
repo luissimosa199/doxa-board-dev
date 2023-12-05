@@ -4,6 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../db/dbConnect";
 import { TimelineFormInputs } from "@/types";
 import { generateSlug } from "@/utils/formHelpers";
+import { uploadAssitantImage } from "@/utils/uploadAssistantImage";
 
 export default async function handler(
   req: NextApiRequest,
@@ -43,11 +44,15 @@ export default async function handler(
 
     if (typeof req.body === "object") {
       mainText = req.body.mainText;
-      photo = req.body.photo.map((e: { url: string }, idx: number) => ({
-        url: e.url,
-        idx,
-        caption: "",
-      }));
+      photo = req.body.photo.map(async (e: { url: string }, idx: number) => {
+        const image = await uploadAssitantImage(e.url);
+
+        return {
+          url: image,
+          idx,
+          caption: "",
+        };
+      });
       length = req.body.length || 0;
       tags = req.body.tags;
       authorId = req.body.authorId;
