@@ -43,7 +43,11 @@ export default async function handler(
 
     if (typeof req.body === "object") {
       mainText = req.body.mainText;
-      photo = req.body.photo || [];
+      photo = req.body.photo.map((e: string, idx: number) => ({
+        url: e,
+        idx,
+        caption: "",
+      }));
       length = req.body.length || 0;
       tags = req.body.tags;
       authorId = req.body.authorId;
