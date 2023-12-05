@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../db/dbConnect";
 import { TimelineFormInputs } from "@/types";
 import { generateSlug } from "@/utils/formHelpers";
-import { uploadAssitantImage } from "@/utils/uploadAssistantImage";
+import { uploadAssistantImage } from "@/utils/uploadAssistantImage";
 
 export default async function handler(
   req: NextApiRequest,
@@ -44,27 +44,34 @@ export default async function handler(
 
     if (typeof req.body === "object") {
       mainText = req.body.mainText;
-      photo = req.body.photo.map(async (e: { url: string }, idx: number) => {
-        const image = await uploadAssitantImage(e.url);
+      photo = [];
 
-        return {
+      for (const e of req.body.photo) {
+        const image = await uploadAssistantImage(e.url);
+        photo.push({
           url: image,
-          idx,
+          idx: photo.length,
           caption: "",
-        };
-      });
+        });
+      }
       length = req.body.length || 0;
       tags = req.body.tags;
       authorId = req.body.authorId;
       authorName = req.body.authorName;
       links = req.body.links || [];
 
-      console.log("asistente: \n\n", {
-        photo,
-        body: req.body,
-      });
-
       baseSlug = generateSlug(req.body, 35, 50);
+
+      console.log({
+        mainText,
+        photo,
+        length,
+        tags,
+        authorId,
+        authorName,
+        links,
+        baseSlug,
+      });
     } else {
       const body = JSON.parse(req.body) as TimelineFormInputs;
 
