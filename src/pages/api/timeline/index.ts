@@ -62,16 +62,6 @@ export default async function handler(
 
       baseSlug = generateSlug(req.body, 35, 50);
 
-      console.log({
-        mainText,
-        photo,
-        length,
-        tags,
-        authorId,
-        authorName,
-        links,
-        baseSlug,
-      });
     } else {
       const body = JSON.parse(req.body) as TimelineFormInputs;
 
