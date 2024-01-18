@@ -31,12 +31,12 @@ interface AnyObject {
 }
 
 export const fetchUserAgentData = async () => {
-    const response = await fetch("/api/user_agent_info", {
-        method: "GET",
-    })
+  const response = await fetch("/api/user_agent_info", {
+    method: "GET",
+  });
 
-    return await response.json()
-}
+  return await response.json();
+};
 
 export function mostFrequentValue<T extends AnyObject>(
   items: T[],
@@ -45,12 +45,16 @@ export function mostFrequentValue<T extends AnyObject>(
   const count: { [value: string]: number } = {};
 
   items.forEach((item) => {
-    const propertyValue = String(item[key]); // Convert value to string for easier lookup
+    if (item && item[key] !== undefined && item[key] !== "") {
+      const propertyValue = String(item[key]); // Convert value to string for easier lookup
 
-    if (count[propertyValue]) {
-      count[propertyValue]++;
+      if (count[propertyValue]) {
+        count[propertyValue]++;
+      } else {
+        count[propertyValue] = 1;
+      }
     } else {
-      count[propertyValue] = 1;
+      console.log("Undefined Item or Key:", key, "in Item:", item);
     }
   });
 
@@ -64,7 +68,6 @@ export function mostFrequentValue<T extends AnyObject>(
     }
   }
 
-  // If the original property value is a number, convert it back
   if (!isNaN(Number(maxEntry))) {
     return Number(maxEntry);
   }
@@ -88,10 +91,12 @@ export const getAggregateData = (data: UserAgent[]) => {
       }
 
       // Operating System Count
-      if (osCounts[visit.os.name]) {
-        osCounts[visit.os.name]++;
-      } else {
-        osCounts[visit.os.name] = 1;
+      if (visit.os && visit.os.name) {
+        if (osCounts[visit.os.name]) {
+          osCounts[visit.os.name]++;
+        } else {
+          osCounts[visit.os.name] = 1;
+        }
       }
     });
   });
@@ -99,9 +104,7 @@ export const getAggregateData = (data: UserAgent[]) => {
   const sortedEntryPoints = Object.entries(entryPointCounts).sort(
     (a, b) => b[1] - a[1]
   );
-  const sortedOSCounts = Object.entries(osCounts).sort(
-    (a, b) => b[1] - a[1]
-  );
+  const sortedOSCounts = Object.entries(osCounts).sort((a, b) => b[1] - a[1]);
 
   const topThreeEntryPoints =
     sortedEntryPoints.length > 3
@@ -109,9 +112,7 @@ export const getAggregateData = (data: UserAgent[]) => {
       : sortedEntryPoints;
 
   const topThreeOS =
-    sortedOSCounts.length > 3
-      ? sortedOSCounts.slice(0, 3)
-      : sortedOSCounts;
+    sortedOSCounts.length > 3 ? sortedOSCounts.slice(0, 3) : sortedOSCounts;
 
   const uniqueUsers = new Set(data.map((item) => item._id));
   const totalUniqueUsers = uniqueUsers.size;
